@@ -369,15 +369,26 @@
   function renderContact(sec, grid, c) {
     var k = c.contact;
     var face = brick(sec, grid, 'contact', [12, 3], { solid: true, contact: true });
-    var emailBtn = el('button', { class: 'contact-link', type: 'button', 'aria-haspopup': 'dialog' },
-      el('b', { text: k.emailLabel }), el('span', { text: k.email }));
-    emailBtn.addEventListener('click', function () { openEmail(emailBtn); });
+    /* real links (mailto and the PDF) so crawlers and no script readers can follow them;
+       a plain click opens the friendlier dialog, ctrl or middle click keeps the normal link behaviour */
+    function dialogLink(attrs, open) {
+      var a = el('a', attrs);
+      a.addEventListener('click', function (e) {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        open(a);
+      });
+      return a;
+    }
+    var emailBtn = dialogLink({ class: 'contact-link', href: 'mailto:' + k.email, 'aria-haspopup': 'dialog' }, openEmail);
+    emailBtn.appendChild(el('b', { text: k.emailLabel }));
+    emailBtn.appendChild(el('span', { text: k.email }));
     var li = k.linkedin;
     var liLink = el('a', { class: 'contact-link', href: li.href, target: '_blank', rel: 'noopener noreferrer' },
       el('b', { text: li.label }), el('span', { text: li.value }));
-    var resBtn = el('button', { class: 'contact-link', type: 'button', 'aria-haspopup': 'dialog' },
-      el('b', { text: k.resume.label }), el('span', { text: k.resume.value }));
-    resBtn.addEventListener('click', function () { openResume(resBtn); });
+    var resBtn = dialogLink({ class: 'contact-link', href: k.resume.href, 'aria-haspopup': 'dialog' }, openResume);
+    resBtn.appendChild(el('b', { text: k.resume.label }));
+    resBtn.appendChild(el('span', { text: k.resume.value }));
     face.appendChild(el('p', { class: 'contact-text', text: k.text }));
     face.appendChild(el('div', { class: 'contact-links' }, emailBtn, liLink, resBtn));
   }
@@ -401,7 +412,8 @@
     document.getElementById('meterLabel').textContent = c.site.meter.assembling;
 
     c.sections.forEach(function (def, i) {
-      var h = el('h2', { class: 'plate-title', id: 'h-' + def.id, text: def.title });
+      var isIntro = def.kind === 'intro';
+      var h = el(isIntro ? 'span' : 'h2', { class: 'plate-title', id: 'h-' + def.id, text: def.title });
       var plate = el('div', { class: 'plate' + (def.noPlate ? ' plain' : '') },
         studRow(12),
         h,
