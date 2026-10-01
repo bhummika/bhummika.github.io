@@ -5,6 +5,8 @@
    so recruiters' tools, ATS parsers, search engines and anyone without JavaScript read the real
    content. The page script hides this copy from the screen once the bricks have built.
 3. Refreshes the structured data (schema.org Person) in index.html.
+4. Adds a version tag to the css and script links so visitors always get matching files.
+Run it after ANY edit to content.json, style.css, app.js or art.js.
 """
 import json, os, re
 from html import escape as e
@@ -180,6 +182,14 @@ html = re.sub(r'<title>.*?</title>', '<title>%s</title>' % e(site['title']), htm
 html = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="%s">' % e(site['description'], quote=True), html, count=1)
 html = re.sub(r'<meta property="og:title" content="[^"]*">', '<meta property="og:title" content="%s">' % e(site['title'], quote=True), html, count=1)
 html = re.sub(r'<meta property="og:description" content="[^"]*">', '<meta property="og:description" content="%s">' % e(site['description'], quote=True), html, count=1)
+
+# cache busting: version the asset links by their content, so browsers never mix a new page with old styles or scripts
+import hashlib
+for name in ('style.css', 'app.js', 'art.js', 'content.js'):
+    with open(os.path.join(here, name), 'rb') as fh:
+        v = hashlib.md5(fh.read()).hexdigest()[:8]
+    pattern = r'(href|src)="%s(\?v=[0-9a-f]+)?"' % re.escape(name)
+    html = re.sub(pattern, lambda m, n=name, ver=v: '%s="%s?v=%s"' % (m.group(1), n, ver), html)
 
 with open(path, 'w', encoding='utf-8') as f:
     f.write(html)
