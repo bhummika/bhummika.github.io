@@ -593,3 +593,16 @@ html.mode-skip .plate-fill, html.mode-skip .plate-title-on, html.mode-skip .mete
 }
 
 .fallback { padding: 24px; background: var(--paper); border-radius: 8px; }
+
+/* ---------- plain text copy (no JavaScript, crawlers, resume parsers) ---------- */
+#static-content { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; line-height: 1.6; }
+#static-content section { margin-bottom: 36px; }
+#static-content h1 { font-size: 2.2em; }
+#static-content h2 { margin-top: 24px; font-size: 1.5em; }
+#static-content h3, #static-content h4 { margin-top: 18px; }
+#static-content img { max-width: 100%; height: auto; border-radius: 8px; }
+#static-content table { border-collapse: collapse; }
+#static-content th, #static-content td { border: 1px solid #B9B8B3; padding: 6px 10px; text-align: left; vertical-align: top; }
+#static-content blockquote { margin: 14px 0; padding-left: 14px; border-left: 5px solid var(--blue); }
+html:not(.js) .topbar, html:not(.js) .meter { display: none; }
+.js #static-content { position: absolute; width: 1px; height: 1px; padding: 0; margin: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

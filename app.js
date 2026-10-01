@@ -885,6 +885,9 @@
   });
 
   /* ---------- start ---------- */
+  /* the plain text copy of the page is for readers without JavaScript; hide it from screen and screen readers once we run */
+  var staticCopy = document.getElementById('static-content');
+  if (staticCopy) { staticCopy.setAttribute('inert', ''); staticCopy.setAttribute('aria-hidden', 'true'); }
   state.skip = store('brickSkip') === '1';
   state.sound = store('brickSound') === '1';
   applyMode();
@@ -914,7 +917,9 @@
       updateScrub();
     })
     .catch(function (err) {
-      $main.appendChild(el('p', { class: 'fallback', text: 'The content file could not be loaded.' }));
+      /* bricks could not build: show the plain text copy instead */
+      root.classList.remove('js');
+      if (staticCopy) { staticCopy.removeAttribute('inert'); staticCopy.removeAttribute('aria-hidden'); }
       console.error(err);
     });
 })();
