@@ -185,13 +185,6 @@ window.CONTENT = {
       "anim": "snap"
     },
     {
-      "id": "education",
-      "title": "Education",
-      "color": "green",
-      "kind": "education",
-      "anim": "snap"
-    },
-    {
       "id": "articles",
       "title": "Articles",
       "color": "blue",
@@ -339,12 +332,12 @@ window.CONTENT = {
         }
       },
       {
-        "value": "~40%",
+        "value": "About 40%",
         "caption": "fewer minor process errors than before I introduced a policy questions tracker for the team",
         "id": "errors",
         "count": {
           "to": 40,
-          "prefix": "~",
+          "prefix": "About ",
           "suffix": "%"
         }
       },
@@ -493,9 +486,13 @@ window.CONTENT = {
         },
         "featured": true,
         "type": "built",
-        "oneProblem": "AI support decides escalation by keyword and empathy by apology template.",
-        "did": "Modelled escalation as signal detection and empathy as one bounded acknowledgment, tested on 82,779 real support tickets.",
-        "result": "A two layer, auditable framework with five testable predictions and a live dashboard.",
+        "oneProblem": "AI support bots decide who handles a case and how it sounds from keywords and apology templates, so calm but risky cases slip through.",
+        "did": [
+          "Scored emotional intensity, stakes, ambiguity, trajectory and resolution confidence separately.",
+          "Set the escalation threshold per issue category, using signal detection theory.",
+          "Replaced stacked apologies with one bounded acknowledgment, then action."
+        ],
+        "result": "82,779 real tickets modeled, five testable predictions defined, and a live dashboard.",
         "headline": {
           "value": "82,779",
           "label": "real tickets modeled"
@@ -504,7 +501,8 @@ window.CONTENT = {
           "label": "Try the live demo",
           "href": "https://claude.ai/code/artifact/52cd1af1-cfb3-4469-b448-a7c9f733f5b0"
         },
-        "takeaway": "Turns AI support escalation and empathy into explicit, testable judgment, modeled on 82,779 real tickets."
+        "takeaway": "Turns AI support escalation and empathy into explicit, testable judgment, modeled on 82,779 real tickets.",
+        "resultLabel": "Scale"
       },
       {
         "id": "uber-eats-india",
@@ -584,14 +582,19 @@ window.CONTENT = {
         },
         "type": "strategy",
         "role": "Team project",
-        "oneProblem": "Uber Eats lost $244M in India and sold the business in 2020.",
-        "did": "Diagnosed the loss and built a reentry plan on assets Uber already owns.",
-        "result": "Three cost cutting strategies, led by business customers.",
+        "oneProblem": "Uber Eats lost $244M in under three years chasing discounted orders and exited India in January 2020.",
+        "did": [
+          "Started with business customers through Uber for Business.",
+          "Combined a shared ride with one quick food pickup.",
+          "Added an order ahead, pay in app, pick up on the way option."
+        ],
+        "result": "Office orders average over 1,500 rupees against 250 for a single user. This is a plan, not a shipped result.",
         "headline": {
           "value": "$244M",
           "label": "prior loss diagnosed"
         },
-        "takeaway": "Diagnosed a $244M loss and built a reentry plan from assets Uber already owns."
+        "takeaway": "Diagnosed a $244M loss and built a reentry plan from assets Uber already owns.",
+        "resultLabel": "Finding"
       },
       {
         "id": "nordstrom-canada",
@@ -705,14 +708,19 @@ window.CONTENT = {
         },
         "type": "strategy",
         "role": "Team project",
-        "oneProblem": "Nordstrom Canada burned $775M and closed in 2023 without a profitable year.",
-        "did": "Found where the strategy fell short and rebuilt it for Canadian shoppers.",
-        "result": "A four pillar relaunch strategy with headline targets.",
+        "oneProblem": "Nordstrom Canada closed in 2023 after nine years and $775M, with no profitable year, while 53% of former customers were disappointed.",
+        "did": [
+          "Diagnosed where the original strategy fell short.",
+          "Rebuilt the strategy around Canadian life instead of imported U.S. habits.",
+          "Set targets for margin, customer loyalty and Canadian designers."
+        ],
+        "result": "12%+ EBITDA margin by year 3 and a Net Promoter Score of 65 to 80+. These are targets, not results.",
         "headline": {
           "value": "$775M",
           "label": "capital burned"
         },
-        "takeaway": "Diagnosed why Nordstrom Canada closed after $775M and designed a four pillar relaunch."
+        "takeaway": "Diagnosed why Nordstrom Canada closed after $775M and designed a four pillar relaunch.",
+        "resultLabel": "Target"
       },
       {
         "id": "huskyperks",
@@ -782,6 +790,11 @@ window.CONTENT = {
             {
               "type": "quote",
               "text": "Vibe coding turned a real operational headache into a functional product in days."
+            },
+            {
+              "type": "quote",
+              "text": "The app is soooo great! I didn't know that UW students have so many discounts.",
+              "by": "UW student"
             }
           ],
           "links": [
@@ -794,17 +807,22 @@ window.CONTENT = {
         "type": "built",
         "role": "Solo",
         "oneProblem": "UW students had plenty of deals but no easy way to find the ones nearby.",
-        "did": "Designed and vibe coded a mobile deals app, from concept to product.",
-        "result": "A live app in days, not months.",
+        "did": [
+          "Collected 244 perks from UW's website and student resources and organized them into 15 categories.",
+          "Built a campus map with distances, filters and one tap directions.",
+          "Added a Perk Vault where online perks open in one tap and show which ID is needed."
+        ],
+        "result": "244 perks live, built solo in days. Early use: 69 visits in the 90 days to Oct 5, 91% on mobile.",
         "headline": {
-          "value": "Days",
-          "label": "concept to live app"
+          "value": "244",
+          "label": "perks live"
         },
         "cta": {
           "label": "Try it",
           "href": "https://husky-perks-deals.lovable.app"
         },
-        "takeaway": "Took a student deals app from concept to a working product, solo, in days."
+        "takeaway": "Took a student deals app from concept to a working product, solo, in days.",
+        "resultLabel": "Scale"
       },
       {
         "id": "lp-dashboard",
@@ -907,16 +925,13 @@ window.CONTENT = {
       }
     ],
     "tracker": {
-      "label": "Tracking",
-      "code": "BC-2022-SEA",
-      "shipmentLabel": "Shipment",
-      "shipment": "Bhumika Choudhary",
-      "statusLabel": "Status",
-      "status": "Out for delivery",
+      "label": "Career path",
+      "statusLabel": "Now",
+      "status": "Master's at UW Foster, graduating June 2027",
       "stops": [
         {
           "id": "packed",
-          "stage": "Packed",
+          "stage": "Degree",
           "title": "B.S. Biotechnology and Microbiology",
           "where": "St. Francis College for Women, Hyderabad",
           "when": "June 2022",
@@ -925,21 +940,21 @@ window.CONTENT = {
         {
           "id": "sqrc-i",
           "role": "sqrc-i",
-          "stage": "Picked up"
+          "stage": "Role 1"
         },
         {
           "id": "rc-ii",
           "role": "rc-ii",
-          "stage": "In transit"
+          "stage": "Role 2"
         },
         {
           "id": "rc-iii",
           "role": "rc-iii",
-          "stage": "Scanned"
+          "stage": "Role 3"
         },
         {
           "id": "mscm",
-          "stage": "Out for delivery",
+          "stage": "Now",
           "title": "Master of Supply Chain Management",
           "where": "UW Foster School of Business, Seattle",
           "when": "June 2027 expected",
@@ -948,8 +963,8 @@ window.CONTENT = {
         },
         {
           "id": "delivery",
-          "stage": "Delivered",
-          "title": "To your team?",
+          "stage": "Next",
+          "title": "Your team",
           "where": "Program management, operations, supply chain, risk",
           "when": "2027",
           "art": "truck",
@@ -1101,7 +1116,7 @@ window.CONTENT = {
       "shared": "Shared"
     }
   },
-  "focus": {
+  "_focusLater": {
     "paramLabel": "Showing what matters for",
     "clear": "Show everything",
     "groups": [

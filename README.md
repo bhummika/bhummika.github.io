@@ -28,7 +28,9 @@ Never edit `content.js` or the generated parts of `index.html` by hand.
 `count` (how it counts: `to`, optional `prefix`, `suffix`, and `group` for a thousands comma). If
 you change a number, change both.
 
-## Tailored links
+## Tailored links (switched off for now)
+
+The code is still there, but the `focus` data in `content.json` was renamed `_focusLater`, so `?for=` does nothing. Rename it back to `focus` to turn the feature on.
 
 `?for=` highlights the work that matters for one kind of role and dims the rest:
 

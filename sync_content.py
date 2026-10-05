@@ -63,7 +63,7 @@ def case_html(cs):
             out.append('<h4>%s</h4>' % e(b['heading']))
             out.append(stats(b['items']))
         elif k == 'quote':
-            out.append('<blockquote>%s</blockquote>' % e(b['text']))
+            out.append('<blockquote>%s%s</blockquote>' % (e(b['text']), (' <cite>%s</cite>' % e(b['by'])) if b.get('by') else ''))
     for l in cs.get('links', []):
         out.append('<p><a href="%s">%s</a></p>' % (e(l['href']), e(l['label'])))
     return '\n'.join(out)
@@ -103,9 +103,14 @@ def build_static(c):
                     out.append(p('Status: ' + it['status']))
                 if it.get('empty'):
                     out.append(p('Work in progress.'))
-                for label, key in (('Problem', 'oneProblem'), ('What I did', 'did'), ('Result', 'result')):
-                    if it.get(key):
-                        out.append('<p><strong>%s:</strong> %s</p>' % (label, e(it[key])))
+                for label, key in (('Problem', 'oneProblem'), ('What I did', 'did'), (it.get('resultLabel') or 'Result', 'result')):
+                    v = it.get(key)
+                    if not v:
+                        continue
+                    if isinstance(v, list):
+                        out.append('<p><strong>%s:</strong></p><ol>%s</ol>' % (label, ''.join('<li>%s</li>' % e(x) for x in v)))
+                    else:
+                        out.append('<p><strong>%s:</strong> %s</p>' % (label, e(v)))
                 if it.get('summary'):
                     out.append(p(it['summary']))
                 if it.get('takeaway'):
@@ -175,7 +180,7 @@ person = {
         {"@type": "CollegeOrUniversity", "name": "University of Washington, Michael G. Foster School of Business"},
         {"@type": "CollegeOrUniversity", "name": "St. Francis College for Women"}
     ],
-    "worksFor": {"@type": "Organization", "name": "Uber"},
+    "knowsAbout": ["supply chain management", "risk and compliance", "fraud operations", "process and SOP design", "escalation design for AI customer support"],
     "sameAs": [c['contact']['linkedin']['href']],
     "description": site['description']
 }

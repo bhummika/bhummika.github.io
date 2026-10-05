@@ -824,6 +824,30 @@ html.focused .meter { top: calc(var(--bar-h) + 70px); }
 /* without JavaScript the brick area is empty: drop its padding so the text copy starts at the top */
 html:not(.js) main { display: none; }
 
+/* ---------- agreed readability rules for the labels the update package added ---------- */
+.stop-stage, .pc-lines dt, .pc-chip, .bench-label {
+  font-size: max(14px, 0.9em); text-transform: none; letter-spacing: 0.2px;
+}
+.stop-where, .stop-when { font-size: max(14px, 0.9em); }
+.pc-lines div { grid-template-columns: 7.2em minmax(0, 1fr); }
+.pc-steps { margin: 0; padding-left: 1.2em; display: grid; gap: 3px; }
+.case-quote cite { display: block; margin-top: 8px; font-family: var(--font); font-style: normal; font-weight: 800; font-size: 0.82em; color: var(--muted); }
+@media (max-width: 900px) {
+  /* on a phone the three Uber stops repeat the same place line, so it goes and the route gets shorter */
+  .role-where { display: none; }
+}
+
+@media (max-width: 767px) {
+  .pc-lines div { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (max-width: 900px) {
+  /* a tighter route on phones */
+  .track { gap: 8px; }
+  .stop-btn { padding: 10px 12px 10px 20px; gap: 1px; }
+  .stop-note { margin-top: 3px; }
+  .stop .proj-open { padding-top: 4px; }
+}
+
 </style><!--CSS-END-->
 <!--LD-START-->
 <script type="application/ld+json">
@@ -851,10 +875,13 @@ html:not(.js) main { display: none; }
       "name": "St. Francis College for Women"
     }
   ],
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Uber"
-  },
+  "knowsAbout": [
+    "supply chain management",
+    "risk and compliance",
+    "fraud operations",
+    "process and SOP design",
+    "escalation design for AI customer support"
+  ],
   "sameAs": [
     "https://www.linkedin.com/in/bhummika"
   ],
@@ -912,7 +939,7 @@ html:not(.js) main { display: none; }
 <p>Turning the workaround everyone has quietly gotten used to into a system that actually holds.</p>
 <h3>Strategic turnarounds</h3>
 <p>Diagnosing why something failed, honestly, before building the plan to fix it.</p>
-<ul><li><strong>5,000+</strong> cases in the global appeals queue I managed, over two years</li><li><strong>2,000+</strong> fraud cases investigated across the US and Canada, in one year</li><li><strong>~40%</strong> fewer minor process errors than before I introduced a policy questions tracker for the team</li><li><strong>30%</strong> faster onboarding of new hires, from the training I led</li></ul>
+<ul><li><strong>5,000+</strong> cases in the global appeals queue I managed, over two years</li><li><strong>2,000+</strong> fraud cases investigated across the US and Canada, in one year</li><li><strong>About 40%</strong> fewer minor process errors than before I introduced a policy questions tracker for the team</li><li><strong>30%</strong> faster onboarding of new hires, from the training I led</li></ul>
 </section>
 <section id="s-projects">
 <h2>Projects</h2>
@@ -920,9 +947,9 @@ html:not(.js) main { display: none; }
 <h3>TrustBridge</h3>
 <p>Calibrated Escalation &amp; Empathy Framework for AI Customer Experience</p>
 <p>Status: Live demo</p>
-<p><strong>Problem:</strong> AI support decides escalation by keyword and empathy by apology template.</p>
-<p><strong>What I did:</strong> Modelled escalation as signal detection and empathy as one bounded acknowledgment, tested on 82,779 real support tickets.</p>
-<p><strong>Result:</strong> A two layer, auditable framework with five testable predictions and a live dashboard.</p>
+<p><strong>Problem:</strong> AI support bots decide who handles a case and how it sounds from keywords and apology templates, so calm but risky cases slip through.</p>
+<p><strong>What I did:</strong></p><ol><li>Scored emotional intensity, stakes, ambiguity, trajectory and resolution confidence separately.</li><li>Set the escalation threshold per issue category, using signal detection theory.</li><li>Replaced stacked apologies with one bounded acknowledgment, then action.</li></ol>
+<p><strong>Scale:</strong> 82,779 real tickets modeled, five testable predictions defined, and a live dashboard.</p>
 <p>Most AI support systems fail the same way twice: escalation decided by keyword matching, empathy decided by apology templates. TrustBridge reframes both as explicit, auditable judgment instead of pattern matching on surface features.</p>
 <p><strong>Key takeaway:</strong> Turns AI support escalation and empathy into explicit, testable judgment, modeled on 82,779 real tickets.</p>
 <p>Focus: Signal detection theory, AI/CX systems design, Python, Real support data</p>
@@ -943,9 +970,9 @@ html:not(.js) main { display: none; }
 <article>
 <h3>Uber Eats India</h3>
 <p>Market Reentry Strategy, Foster School of Business</p>
-<p><strong>Problem:</strong> Uber Eats lost $244M in India and sold the business in 2020.</p>
-<p><strong>What I did:</strong> Diagnosed the loss and built a reentry plan on assets Uber already owns.</p>
-<p><strong>Result:</strong> Three cost cutting strategies, led by business customers.</p>
+<p><strong>Problem:</strong> Uber Eats lost $244M in under three years chasing discounted orders and exited India in January 2020.</p>
+<p><strong>What I did:</strong></p><ol><li>Started with business customers through Uber for Business.</li><li>Combined a shared ride with one quick food pickup.</li><li>Added an order ahead, pay in app, pick up on the way option.</li></ol>
+<p><strong>Finding:</strong> Office orders average over 1,500 rupees against 250 for a single user. This is a plan, not a shipped result.</p>
 <p>Uber Eats lost $244M in India in under three years chasing discounted orders it could not profitably deliver, and sold the business to Zomato in 2020. This plan re enters the market by building on assets Uber already owns instead of a new delivery network.</p>
 <p><strong>Key takeaway:</strong> Diagnosed a $244M loss and built a reentry plan from assets Uber already owns.</p>
 <p>Focus: Strategic planning, Market reentry, Team project</p>
@@ -961,9 +988,9 @@ html:not(.js) main { display: none; }
 <article>
 <h3>Nordstrom Canada</h3>
 <p>Nordstrom 2.0, The Relaunch Strategy</p>
-<p><strong>Problem:</strong> Nordstrom Canada burned $775M and closed in 2023 without a profitable year.</p>
-<p><strong>What I did:</strong> Found where the strategy fell short and rebuilt it for Canadian shoppers.</p>
-<p><strong>Result:</strong> A four pillar relaunch strategy with headline targets.</p>
+<p><strong>Problem:</strong> Nordstrom Canada closed in 2023 after nine years and $775M, with no profitable year, while 53% of former customers were disappointed.</p>
+<p><strong>What I did:</strong></p><ol><li>Diagnosed where the original strategy fell short.</li><li>Rebuilt the strategy around Canadian life instead of imported U.S. habits.</li><li>Set targets for margin, customer loyalty and Canadian designers.</li></ol>
+<p><strong>Target:</strong> 12%+ EBITDA margin by year 3 and a Net Promoter Score of 65 to 80+. These are targets, not results.</p>
 <p>Nordstrom Canada shut down in 2023 after nine years and $775M in parent funding, without a single profitable quarter. Yet over half of former customers were disappointed it closed. This plan rebuilds the strategy around four pillars, built for Canadian life instead of imported from the U.S.</p>
 <p><strong>Key takeaway:</strong> Diagnosed why Nordstrom Canada closed after $775M and designed a four pillar relaunch.</p>
 <p>Focus: Strategic planning, Brand relaunch, Team project</p>
@@ -985,8 +1012,8 @@ html:not(.js) main { display: none; }
 <p>Mobile Deals App for UW Students, Built with AI Assisted &quot;Vibe Coding&quot;</p>
 <p>Status: Live app</p>
 <p><strong>Problem:</strong> UW students had plenty of deals but no easy way to find the ones nearby.</p>
-<p><strong>What I did:</strong> Designed and vibe coded a mobile deals app, from concept to product.</p>
-<p><strong>Result:</strong> A live app in days, not months.</p>
+<p><strong>What I did:</strong></p><ol><li>Collected 244 perks from UW&#x27;s website and student resources and organized them into 15 categories.</li><li>Built a campus map with distances, filters and one tap directions.</li><li>Added a Perk Vault where online perks open in one tap and show which ID is needed.</li></ol>
+<p><strong>Scale:</strong> 244 perks live, built solo in days. Early use: 69 visits in the 90 days to Oct 5, 91% on mobile.</p>
 <p>The real problem for UW students hunting local deals was never a lack of them. It was poor coordination and clunky navigation. HuskyPerks fixes that: a mobile optimized web app curating verified local discounts exclusively for UW students, taken from concept to a working product in days using AI driven development tools.</p>
 <p><strong>Key takeaway:</strong> Took a student deals app from concept to a working product, solo, in days.</p>
 <p>Focus: Vibe coding, Product design, UW students</p>
@@ -996,6 +1023,7 @@ html:not(.js) main { display: none; }
 <h4>How it came together</h4>
 <ol><li><strong>Vibe Coded with Lovable.</strong> Used AI driven tools to go from concept to a smooth mobile interface fast, focusing on intuitive UX and clear data structure.</li><li><strong>UW Specific Data.</strong> Curated verified local discounts exclusively relevant to UW students.</li><li><strong>Ops Mindset.</strong> Approached it like an operations problem: fixing the mapping and coordination friction to build a clean web experience.</li></ol>
 <blockquote>Vibe coding turned a real operational headache into a functional product in days.</blockquote>
+<blockquote>The app is soooo great! I didn&#x27;t know that UW students have so many discounts. <cite>UW student</cite></blockquote>
 <p><a href="https://husky-perks-deals.lovable.app">Try HuskyPerks</a></p>
 </article>
 <article>
@@ -1022,15 +1050,6 @@ html:not(.js) main { display: none; }
 <article><h3>Risk and Compliance Specialist III</h3>
 <p>Uber, May 2025 to May 2026</p>
 <ul><li>Designed and implemented quality management frameworks that reduced minor process errors by 40% and improved alignment across teams with project goals by 20%.</li><li>Partnered with engineering, policy, and operations teams to triage and resolve compliance issues with a high impact, within SLA, restoring platform stability and customer trust.</li><li>Reworked escalation templates and SOP processes, standardizing workflows and improving consistency across global teams.</li><li>Led training workshops, rollout plans, and practical coaching that accelerated onboarding of new hires by 30% and ensured policy implementation on time.</li></ul>
-</article>
-</section>
-<section id="s-education">
-<h2>Education</h2>
-<article><h3>UW Foster School of Business</h3>
-<p>Master of Supply Chain Management, June 2027 (expected), Seattle, WA</p>
-</article>
-<article><h3>St. Francis College for Women</h3>
-<p>Bachelor of Science, Biotechnology and Microbiology, June 2022, Hyderabad, India</p>
 </article>
 </section>
 <section id="s-articles">
@@ -1062,8 +1081,8 @@ html:not(.js) main { display: none; }
   <section class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" tabindex="-1"></section>
 </div>
 
-<script src="content.js?v=c538ae07"></script>
+<script src="content.js?v=4a45f420"></script>
 <script src="art.js?v=b8e4da94"></script>
-<script src="app.js?v=0467a1c3"></script>
+<script src="app.js?v=783e255a"></script>
 </body>
 </html>

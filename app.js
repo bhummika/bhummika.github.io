@@ -336,8 +336,17 @@
       item.role ? el('span', { class: 'pc-chip role', text: item.role }) : null);
 
     var lines = el('dl', { class: 'pc-lines' });
-    [[L.problemShort, item.oneProblem], [L.didShort, item.did], [L.resultShort, item.result]].forEach(function (r) {
-      if (r[1]) lines.appendChild(el('div', null, el('dt', { text: r[0] }), el('dd', { text: r[1] })));
+    [[L.problemShort, item.oneProblem], [L.didShort, item.did], [item.resultLabel || L.resultShort, item.result]].forEach(function (r) {
+      if (!r[1]) return;
+      var dd;
+      if (Array.isArray(r[1])) {
+        var ol = el('ol', { class: 'pc-steps' });
+        r[1].forEach(function (t) { ol.appendChild(el('li', { text: t })); });
+        dd = el('dd', null, ol);
+      } else {
+        dd = el('dd', { text: r[1] });
+      }
+      lines.appendChild(el('div', null, el('dt', { text: r[0] }), dd));
     });
 
     var read = el('button', { class: 'btn light', type: 'button', 'aria-haspopup': 'dialog', text: L.readCase });
@@ -449,10 +458,10 @@
     x.roles.forEach(function (r) { byRole[r.id] = r; });
 
     var head = brick(sec, grid, 'trackhead', [12, 1], { solid: true });
-    head.appendChild(el('div', { class: 'track-head' },
-      el('p', null, el('b', { text: t.label + ' ' }), el('span', { class: 'track-code', text: t.code })),
-      el('p', null, el('b', { text: t.shipmentLabel + ' ' }), el('span', { text: t.shipment })),
-      el('p', { class: 'track-status' }, el('b', { text: t.statusLabel + ' ' }), el('span', { text: t.status }))));
+    var headParts = [el('p', null, el('b', { text: t.label + (t.code ? ' ' : '') }), t.code ? el('span', { class: 'track-code', text: t.code }) : null)];
+    if (t.shipment) headParts.push(el('p', null, el('b', { text: t.shipmentLabel + ' ' }), el('span', { text: t.shipment })));
+    headParts.push(el('p', { class: 'track-status' }, el('b', { text: t.statusLabel + ' ' }), el('span', { text: t.status })));
+    head.appendChild(el('div', { class: 'track-head' }, headParts[0], headParts[1], headParts[2]));
 
     var line = el('div', { class: 'track' });
     plainSlot(grid, [12, 2]).appendChild(line);
@@ -466,7 +475,7 @@
         el('span', { class: 'stop-dot', 'aria-hidden': 'true' }),
         el('p', { class: 'stop-stage', text: s.stage }),
         el('h3', { class: 'stop-title', text: r ? r.title : s.title }),
-        el('p', { class: 'stop-where', text: r ? r.org + ', Hyderabad, India' : s.where }),
+        el('p', { class: 'stop-where' + (r ? ' role-where' : ''), text: r ? r.org + ', Hyderabad, India' : s.where }),
         el('p', { class: 'stop-when', text: r ? r.dates : s.when }),
         r ? el('p', { class: 'stop-note', text: r.headline }) : null,
         r ? el('span', { class: 'proj-open', text: t.openLabel }) : null
@@ -1048,7 +1057,7 @@
         panel.appendChild(el('h3', { class: 'case-h', id: hid, text: b.heading }));
         panel.appendChild(statGrid(b.items));
       } else if (b.type === 'quote') {
-        panel.appendChild(el('blockquote', { class: 'case-quote', text: b.text }));
+        panel.appendChild(el('blockquote', { class: 'case-quote' }, b.text, b.by ? el('cite', { text: b.by }) : null));
       }
     });
 

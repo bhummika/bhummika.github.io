@@ -1,0 +1,22 @@
+# Bhumika Choudhary (Sara)
+
+> Seattle based operations and supply chain candidate. 4 years in risk, compliance and fraud operations at Uber (Aug 2022 to May 2026). Master of Supply Chain Management student at the UW Foster School of Business, graduating June 2027. Targeting Program Manager roles in operations, supply chain, risk and governance.
+
+The portfolio is one page. Its full text is in the page source, with no JavaScript needed.
+
+## Links
+- [Portfolio](https://bhummika.github.io/): projects, experience, problems she likes to solve
+- [Resume (PDF)](https://bhummika.github.io/files/resume.pdf)
+- [LinkedIn](https://www.linkedin.com/in/bhummika)
+- Email: bhumikachoudhary.e@gmail.com
+
+## Experience at Uber
+- SQRC Specialist I, Aug 2022 to Aug 2023: investigated 2,000+ fraud cases across the US and Canada.
+- Risk and Compliance Specialist II, Aug 2023 to May 2025: managed a global appeals queue of 5,000+ cases.
+- Risk and Compliance Specialist III, May 2025 to May 2026: quality frameworks that cut minor process errors by 40%.
+
+## Projects
+- TrustBridge: a framework that decides escalation and empathy in AI customer support as explicit, testable judgment, modeled on 82,779 real tickets.
+- Uber Eats India: a market reentry plan after a $244M loss, team project at Foster.
+- Nordstrom Canada: a relaunch strategy after a $775M closure, team project at Foster.
+- HuskyPerks: a mobile web app of 244 student perks for UW, built solo.
