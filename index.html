@@ -1020,6 +1020,47 @@ html:not(.js) main { display: none; }
   .career-steps i::before { left: 3px; width: 10px; }
 }
 
+/* ---------- problems: one clean list ---------- */
+#problems .grid, #contact .grid { grid-auto-rows: auto; }
+#problems .slot.solve-slot, #contact .slot.contactslot { grid-row: auto; }
+.solvelist .face { padding: 10px 28px 8px; }
+.solve-rows { list-style: none; margin: 0; padding: 0; }
+.solve-rows li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 18px; align-items: center; padding: 16px 0; border-bottom: 2px solid #E1E0DB; }
+.solve-rows li:last-child { border-bottom: 0; }
+.solve-ico { width: 52px; }
+.solve-rows h3 { font-size: 1.08em; font-weight: 800; line-height: 1.25; margin: 0 0 3px; }
+.solve-rows p { margin: 0; line-height: 1.45; color: var(--ink); }
+
+/* ---------- outside work: shorter scroll, photo stack and line side by side ---------- */
+.ow-wrap { height: 135vh; }
+.ow-pin { flex-direction: row; gap: clamp(28px, 5vw, 72px); max-height: 560px; height: calc(100vh - var(--bar-h) - 60px); }
+.ow-side { max-width: 30ch; display: flex; flex-direction: column; gap: 18px; }
+.ow-side .outside-line { margin: 0; font-size: clamp(17px, calc(8px + 0.9vw), 21px); font-weight: 700; line-height: 1.45; }
+.ow-wrap.flat .ow-side { max-width: 60ch; margin-top: 18px; }
+@media (max-width: 767px) {
+  .ow-wrap { height: 125vh; }
+  .ow-pin { flex-direction: column; gap: 14px; }
+  .ow-stack { height: min(400px, 52vh); }
+  .ow-side { max-width: none; align-items: center; text-align: center; gap: 10px; }
+  .ow-side .outside-line { font-size: 15px; line-height: 1.4; }
+}
+
+/* ---------- contact: one compact row ---------- */
+.contact .face { padding: 18px 22px 16px; gap: 20px; }
+.contact-link { padding: 10px 14px; }
+@media (max-width: 767px) {
+  .contactslot { --r: 1 !important; }
+  .contact .face { padding: 16px 16px 14px; gap: 12px; }
+  .contact-links { grid-template-columns: 1fr; gap: 8px; }
+  .solvelist .face { padding: 6px 18px 4px; }
+  .solve-rows li { grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 14px 0; }
+  .solve-ico { width: 40px; }
+}
+/* keep the pinned stage centred in the space under the top bar, so no empty band shows below it */
+@media (min-width: 768px) {
+  .ow-pin { top: max(calc(var(--bar-h) + 14px), calc((100vh + var(--bar-h)) / 2 - 280px)); }
+}
+
 </style><!--CSS-END-->
 <!--LD-START-->
 <script type="application/ld+json">
@@ -1097,21 +1138,20 @@ html:not(.js) main { display: none; }
 <p>Most people run from operational chaos. I run toward it.</p>
 <dl><dt>What I do</dt><dd>Give me an operational headache, a hard deadline, and a room full of stakeholders, and I&#x27;ll figure out what&#x27;s broken and how to fix it.</dd><dt>How I think</dt><dd>I like finding the problem behind the problem. Where others see frustrating roadblocks, I just see a system that hasn&#x27;t been optimized yet.</dd><dt>How this site works</dt><dd>I built my portfolio like Lego blocks. Each project is a single piece that fits into the bigger picture of how I solve operational problems.</dd></dl>
 <h2>At a glance</h2>
-<dl><dt>Program</dt><dd>Master of Supply Chain Management, UW Foster, June 2027</dd><dt>Base</dt><dd>Seattle</dd><dt>Background</dt><dd>4 years in risk, compliance and fraud operations at Uber</dd><dt>Targeting</dt><dd>Program Manager roles: operations, supply chain, risk and governance</dd></dl>
+<dl><dt>Program</dt><dd>Master of Supply Chain Management, UW Foster, June 2027</dd><dt>Base</dt><dd>Seattle</dd><dt>Background</dt><dd>4 years in risk, compliance and fraud operations at Uber</dd><dt>Targeting</dt><dd>Management roles in operations, supply chain, risk and programs</dd></dl>
 </section>
 <section id="s-problems">
 <h2>Problems I like to solve</h2>
 <h3>Fraud and risk patterns</h3>
-<p>Finding the signal in noisy data. Four years of case investigation taught me real risk rarely announces itself with a keyword.</p>
+<p>2,000+ fraud cases investigated across the US and Canada at Uber.</p>
 <h3>Escalation and judgment systems</h3>
-<p>Deciding who handles what, and how, explicitly and on purpose. Not by instinct, not by a trigger word.</p>
+<p>Ran a global appeals queue of 5,000+ cases, and built TrustBridge on 82,779 real tickets.</p>
+<h3>Process and SOP design</h3>
+<p>A quality framework that cut process errors by about 40%, and training that sped up onboarding by 30%.</p>
+<h3>Strategic turnarounds</h3>
+<p>Diagnosed a $244M loss (Uber Eats India) and a $775M closure (Nordstrom Canada), then built the fix.</p>
 <h3>Sourcing and network design</h3>
 <p>Where something should come from and how it should move, weighed against cost, lead time, and risk.</p>
-<h3>Process and SOP design</h3>
-<p>Turning the workaround everyone has quietly gotten used to into a system that actually holds.</p>
-<h3>Strategic turnarounds</h3>
-<p>Diagnosing why something failed, honestly, before building the plan to fix it.</p>
-<ul><li><strong>5,000+</strong> cases in the global appeals queue I managed, over two years</li><li><strong>2,000+</strong> fraud cases investigated across the US and Canada, in one year</li><li><strong>About 40%</strong> fewer minor process errors than before I introduced a policy questions tracker for the team</li><li><strong>30%</strong> faster onboarding of new hires, from the training I led</li></ul>
 </section>
 <section id="s-projects">
 <h2>Projects</h2>
@@ -1256,8 +1296,8 @@ html:not(.js) main { display: none; }
   <section class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" tabindex="-1"></section>
 </div>
 
-<script src="content.js?v=ba646658"></script>
+<script src="content.js?v=8302f32e"></script>
 <script src="art.js?v=b8e4da94"></script>
-<script src="app.js?v=212df290"></script>
+<script src="app.js?v=62ebb28b"></script>
 </body>
 </html>

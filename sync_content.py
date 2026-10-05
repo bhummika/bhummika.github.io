@@ -91,7 +91,8 @@ def build_static(c):
             for q in a['problems']:
                 out.append('<h3>%s</h3>' % e(q['title']))
                 out.append(p(q['text']))
-            out.append(stats([{'value': n['value'], 'label': n['caption']} for n in a['numbers']]))
+            if a.get('numbers'):
+                out.append(stats([{'value': n['value'], 'label': n['caption']} for n in a['numbers']]))
         elif kind == 'projects':
             out.append('<h2>%s</h2>' % e(title))
             for it in c['projects']['items']:

@@ -233,7 +233,7 @@
       },
       {
         "label": "Targeting",
-        "value": "Program Manager roles: operations, supply chain, risk and governance"
+        "value": "Management roles in operations, supply chain, risk and programs"
       }
     ],
     "story": {
@@ -265,7 +265,7 @@
           4,
           3
         ],
-        "text": "Finding the signal in noisy data. Four years of case investigation taught me real risk rarely announces itself with a keyword.",
+        "text": "2,000+ fraud cases investigated across the US and Canada at Uber.",
         "id": "fraud"
       },
       {
@@ -275,8 +275,28 @@
           4,
           3
         ],
-        "text": "Deciding who handles what, and how, explicitly and on purpose. Not by instinct, not by a trigger word.",
+        "text": "Ran a global appeals queue of 5,000+ cases, and built TrustBridge on 82,779 real tickets.",
         "id": "escalation"
+      },
+      {
+        "title": "Process and SOP design",
+        "art": "queue",
+        "size": [
+          6,
+          3
+        ],
+        "text": "A quality framework that cut process errors by about 40%, and training that sped up onboarding by 30%.",
+        "id": "process"
+      },
+      {
+        "title": "Strategic turnarounds",
+        "art": "chart",
+        "size": [
+          6,
+          3
+        ],
+        "text": "Diagnosed a $244M loss (Uber Eats India) and a $775M closure (Nordstrom Canada), then built the fix.",
+        "id": "turnarounds"
       },
       {
         "title": "Sourcing and network design",
@@ -287,29 +307,9 @@
         ],
         "text": "Where something should come from and how it should move, weighed against cost, lead time, and risk.",
         "id": "sourcing"
-      },
-      {
-        "title": "Process and SOP design",
-        "art": "queue",
-        "size": [
-          6,
-          3
-        ],
-        "text": "Turning the workaround everyone has quietly gotten used to into a system that actually holds.",
-        "id": "process"
-      },
-      {
-        "title": "Strategic turnarounds",
-        "art": "chart",
-        "size": [
-          6,
-          3
-        ],
-        "text": "Diagnosing why something failed, honestly, before building the plan to fix it.",
-        "id": "turnarounds"
       }
     ],
-    "numbers": [
+    "_numbersLater": [
       {
         "value": "5,000+",
         "caption": "cases in the global appeals queue I managed, over two years",
@@ -915,7 +915,7 @@
         "title": "Risk and Compliance Specialist III",
         "dates": "May 2025 to May 2026",
         "art": "shield",
-        "headline": "Cut minor process errors by 40%",
+        "headline": "Global subject matter expert guiding 90+ team members worldwide on policy and quality",
         "bullets": [
           "Designed and implemented quality management frameworks that reduced minor process errors by 40% and improved alignment across teams with project goals by 20%.",
           "Partnered with engineering, policy, and operations teams to triage and resolve compliance issues with a high impact, within SLA, restoring platform stability and customer trust.",

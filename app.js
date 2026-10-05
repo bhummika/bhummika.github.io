@@ -275,26 +275,22 @@
       el('div', { class: 'id-rect id-details' }, el('h2', { text: d.detailsTitle }), dl)));
   }
 
+  /* Problems I like to solve: one card, one row each, with the evidence line under the title */
   function renderAbout(sec, grid, c) {
     var a = c.about;
+    var face = brick(sec, grid, 'solvelist', [12, 5]);
+    face.parentNode.parentNode.classList.add('solve-slot');
+    var list = el('ul', { class: 'solve-rows' });
     a.problems.forEach(function (p) {
-      var f = brick(sec, grid, 'solve', p.size);
-      if (p.id) f.parentNode.parentNode.setAttribute('data-problem-id', p.id);
-      f.appendChild(art(p.art, 'solve-art'));
-      f.appendChild(el('h3', { text: p.title }));
-      f.appendChild(el('p', { text: p.text }));
+      list.appendChild(el('li', { 'data-problem-id': p.id || null },
+        art(p.art, 'solve-ico'),
+        el('div', null, el('h3', { text: p.title }), el('p', { text: p.text }))));
     });
-    a.numbers.forEach(function (n) {
+    face.appendChild(list);
+    (a.numbers || []).forEach(function (n) {
       var f = brick(sec, grid, 'number', [3, 2]);
-      /* the final value is in the markup from the start, so a reader, a screen reader or a
-         printer never sees a half counted number; the count only replaces it while animating */
-      var value = el('p', { class: 'number-value' },
-        el('span', { class: 'sr-only', text: n.value }),                  /* always the real value */
-        el('span', { class: 'number-digits', 'aria-hidden': 'true', text: n.value }));
-      f.appendChild(value);
+      f.appendChild(el('p', { class: 'number-value', text: n.value }));
       f.appendChild(el('p', { class: 'number-caption', text: n.caption }));
-      if (n.count) countUpOnLand(f, value.lastChild, n);
-      if (n.id) f.parentNode.parentNode.setAttribute('data-number-id', n.id);
     });
   }
 
@@ -652,18 +648,17 @@
     });
     var dots = el('div', { class: 'ow-progress', 'aria-hidden': 'true' });
     var dotEls = items.map(function () { var d = el('span', { class: 'ow-dot' }); dots.appendChild(d); return d; });
-    var pin = el('div', { class: 'ow-pin' }, stack, dots);
+    var side = el('div', { class: 'ow-side' }, el('p', { class: 'outside-line', text: c.outside.line }), dots);
+    var pin = el('div', { class: 'ow-pin' }, stack, side);
     var wrap = el('div', { class: 'ow-wrap' }, pin);
     plainSlot(grid, [12, 1]).appendChild(wrap);
     state.stack = { sec: sec, wrap: wrap, pin: pin, cards: cards, dots: dotEls, lit: false };
 
-    var lf = brick(sec, grid, 'outsideline', [12, 2], { solid: true });
-    lf.appendChild(el('p', { class: 'outside-line', text: c.outside.line }));
   }
 
   function renderContact(sec, grid, c) {
     var k = c.contact;
-    var face = brick(sec, grid, 'contact', [12, 2], { solid: true, contact: true });
+    var face = brick(sec, grid, 'contact', [12, 1], { solid: true, contact: true });
     face.parentNode.parentNode.classList.add('contactslot');
     /* real links (mailto, LinkedIn, the PDF) so crawlers and no script readers can follow them;
        a plain click opens the friendlier dialog, ctrl or middle click keeps the normal link behaviour */
