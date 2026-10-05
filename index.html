@@ -912,6 +912,58 @@ html:not(.js) main { display: none; }
 .ow-wrap.flat .ow-progress { display: none; }
 @media (max-width: 700px) { .ow-wrap { height: 150vh; } }
 
+/* ---------- top bar tools: two small icon buttons ---------- */
+.tools { gap: 6px; }
+.tool { width: 32px; height: 32px; padding: 0; justify-content: center; border-width: 2px; border-radius: 8px; }
+.tool .ico { width: 17px; height: 17px; }
+.tool-text, .tool-state { display: none !important; }
+
+/* ---------- projects: one sideways row, picture first ---------- */
+#projects .slot.plain { display: block; }
+.proj-shell { width: 100%; min-width: 0; }
+.proj-nav { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; }
+.proj-hint { flex: 1; font-weight: 700; color: var(--muted); font-size: 14px; }
+.proj-arrow {
+  width: 38px; height: 38px; border: 2px solid var(--ink); border-radius: 8px; background: var(--paper);
+  font-size: 24px; line-height: 1; cursor: pointer; padding: 0 0 3px;
+}
+.proj-arrow:hover { background: var(--ink); color: #fff; }
+.proj-row {
+  display: flex; gap: 18px; overflow-x: auto; overflow-y: hidden; padding: 6px 4px 22px;
+  scroll-snap-type: x proximity; scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+}
+.proj-row .slot { flex: 0 0 min(430px, 84vw); grid-column: auto; grid-row: auto; scroll-snap-align: start; }
+.pcard2 .face { padding: 0; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+.pc-pic {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  height: min(560px, 62vh); min-height: 300px; flex: none; overflow: hidden;
+}
+.pc-pic.tint-0 { background: color-mix(in srgb, #E2B93B 38%, #fff); }
+.pc-pic.tint-1 { background: color-mix(in srgb, #4A7396 32%, #fff); }
+.pc-pic.tint-2 { background: color-mix(in srgb, #6F9272 38%, #fff); }
+.pc-pic.tint-3 { background: color-mix(in srgb, #B9503F 28%, #fff); }
+.pc-pic .pc-art { width: 66%; }
+.pc-pic img, .pc-pic picture { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pc-pic .pc-chips { position: absolute; top: 14px; left: 14px; z-index: 1; margin: 0; }
+.pc-pic .pc-num { position: absolute; left: 14px; bottom: 14px; z-index: 1; align-self: auto; }
+.pcard2 .pc-body { padding: 18px 20px 20px; gap: 12px; height: auto; flex: 1; }
+.pc-title { font-size: 1.3em; }
+.pc-meta { font-size: 14px; color: var(--muted); font-weight: 700; }
+@media (max-width: 767px) { .pc-pic { height: min(400px, 54vh); } }
+/* picture is the larger part of the card */
+.proj-row .slot { flex-basis: min(470px, 86vw); }
+.pc-pic { height: min(700px, 74vh); min-height: 380px; }
+.pcard2 .pc-body { padding: 14px 18px 18px; gap: 9px; font-size: 15px; }
+.pcard2 .pc-lines { gap: 6px; }
+.pcard2 .pc-lines div { grid-template-columns: 1fr; gap: 1px; line-height: 1.35; }
+.pcard2 .pc-title { font-size: 1.25em; }
+@media (max-width: 767px) { .pc-pic { height: min(440px, 56vh); min-height: 280px; } }
+/* card text kept short so the picture can stay about two thirds of the card: the steps live in the case study */
+.pc-pic { height: min(560px, 66vh); min-height: 340px; }
+.pcard2 .pc-lines div:nth-child(2) { display: none; }
+.pcard2 .pc-lines dd { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+@media (max-width: 767px) { .pc-pic { height: min(400px, 52vh); min-height: 260px; } }
+
 </style><!--CSS-END-->
 <!--LD-START-->
 <script type="application/ld+json">
@@ -1148,6 +1200,6 @@ html:not(.js) main { display: none; }
 
 <script src="content.js?v=44e5192d"></script>
 <script src="art.js?v=b8e4da94"></script>
-<script src="app.js?v=22da5462"></script>
+<script src="app.js?v=0611d52a"></script>
 </body>
 </html>

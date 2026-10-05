@@ -331,18 +331,20 @@
 
   /* Projects, featured layout: the best project across the full width, the rest as cards with the
      same anatomy (problem, what I did, result, one number, buttons), unfinished work as one strip. */
-  function projectCard(sec, grid, c, item, wide) {
+  function projectCard(sec, row, c, item, idx) {
     var P = c.projects, L = P.labels;
-    var face = brick(sec, grid, 'project pcard2' + (wide ? ' feature' : ''), wide ? [12, 4] : [4, 5]);
-    face.parentNode.parentNode.classList.add(wide ? 'feature-slot' : 'card-slot');
+    var face = brick(sec, row, 'project pcard2', [6, 5]);
     var slot = face.parentNode.parentNode;
+    slot.classList.add('card-slot');
     slot.setAttribute('data-project-id', item.id);
 
-    var chips = el('div', { class: 'pc-chips' },
-      wide ? el('span', { class: 'pc-chip feat', text: L.featured }) : null,
-      item.type ? el('span', { class: 'pc-chip', text: P.types[item.type] }) : null,
-      item.status ? el('span', { class: 'tag ' + statusClass(item.status), text: item.status }) : null,
-      item.role ? el('span', { class: 'pc-chip role', text: item.role }) : null);
+    /* the picture takes most of the card: a real image when the project has one, otherwise its brick drawing */
+    var pic = el('div', { class: 'pc-pic tint-' + (idx % 4) },
+      el('div', { class: 'pc-chips' },
+        item.featured ? el('span', { class: 'pc-chip feat', text: L.featured }) : null,
+        item.status ? el('span', { class: 'tag ' + statusClass(item.status), text: item.status }) : null),
+      item.image ? photo(item.image, { lazy: idx > 1 }) : art(item.art, 'pc-art'),
+      item.headline ? el('div', { class: 'pstat pc-num' }, el('b', { text: item.headline.value }), el('span', { text: item.headline.label })) : null);
 
     var lines = el('dl', { class: 'pc-lines' });
     [[L.problemShort, item.oneProblem], [L.didShort, item.did], [item.resultLabel || L.resultShort, item.result]].forEach(function (r) {
@@ -364,24 +366,35 @@
       item.cta ? el('a', { class: 'btn', href: item.cta.href, target: '_blank', rel: 'noopener noreferrer', text: item.cta.label }) : null,
       hasDetail(item) ? read : null);
 
+    face.appendChild(pic);
     face.appendChild(el('div', { class: 'pc-body' },
-      el('div', { class: 'pc-head' },
-        el('div', { class: 'pc-headtext' }, chips,
-          el('h3', { class: 'pc-title', text: item.title }),
-          item.subtitle ? el('p', { class: 'pc-sub', text: item.subtitle }) : null),
-        art(item.art, 'pc-art')),
-      el('div', { class: 'pc-main' }, lines,
-        item.headline ? el('div', { class: 'pstat pc-num' }, el('b', { text: item.headline.value }), el('span', { text: item.headline.label })) : null),
-      actions));
+      el('div', { class: 'pc-headtext' },
+        el('h3', { class: 'pc-title', text: item.title }),
+        item.subtitle ? el('p', { class: 'pc-sub', text: item.subtitle }) : null,
+        item.type || item.role ? el('p', { class: 'pc-meta', text: [item.type ? P.types[item.type] : '', item.role || ''].filter(Boolean).join(' \u00b7 ') }) : null),
+      lines, actions));
     linkSkills(face, slot, item.skills, false);
   }
 
   function renderProjectsFeatured(sec, grid, c) {
     var P = c.projects;
     var items = P.items.filter(function (i) { return !i.workbench; });
-    var feat = items.filter(function (i) { return i.featured; });
-    feat.forEach(function (i) { projectCard(sec, grid, c, i, true); });
-    items.filter(function (i) { return !i.featured; }).forEach(function (i) { projectCard(sec, grid, c, i, false); });
+    var row = el('div', { class: 'proj-row', role: 'region', 'aria-label': P.labels.rowLabel || 'Projects, scroll sideways', tabindex: '0' });
+    var shell = el('div', { class: 'proj-shell' });
+    var nav = el('div', { class: 'proj-nav' },
+      el('span', { class: 'proj-hint', text: P.labels.rowHint || 'Scroll sideways for more projects' }));
+    ['prev', 'next'].forEach(function (dir) {
+      var btn = el('button', { class: 'proj-arrow', type: 'button', 'aria-label': dir === 'prev' ? 'Previous project' : 'Next project', text: dir === 'prev' ? '\u2039' : '\u203a' });
+      btn.addEventListener('click', function () {
+        var step = row.firstElementChild ? row.firstElementChild.getBoundingClientRect().width + 18 : 360;
+        row.scrollBy({ left: dir === 'prev' ? -step : step, behavior: mode() === 'full' ? 'smooth' : 'auto' });
+      });
+      nav.appendChild(btn);
+    });
+    shell.appendChild(nav);
+    shell.appendChild(row);
+    plainSlot(grid, [12, 1]).appendChild(shell);
+    items.forEach(function (i, n) { projectCard(sec, row, c, i, n); });
 
     var bench = P.items.filter(function (i) { return i.workbench; });
     if (!bench.length) return;
@@ -650,9 +663,8 @@
       var b = document.getElementById(t[0]);
       b.textContent = '';
       b.appendChild(icon(t[1]));
-      b.appendChild(el('span', { class: 'tool-text', text: t[2] }));
-      b.appendChild(el('span', { class: 'tool-state', 'aria-hidden': 'true' }));
-      b.setAttribute('title', t[2] + ': on or off');
+      b.setAttribute('aria-label', t[2]);
+      b.setAttribute('title', t[2]);
     });
     document.getElementById('meterLabel').textContent = c.site.meter.assembling;
 
