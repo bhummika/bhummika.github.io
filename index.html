@@ -848,6 +848,34 @@ html:not(.js) main { display: none; }
   .stop .proj-open { padding-top: 4px; }
 }
 
+/* ---------- intro: lighter ---------- */
+.id-details dl { grid-template-columns: 1fr; gap: 8px; }
+.id-details dl div { display: grid; grid-template-columns: 6.6em minmax(0, 1fr); gap: 10px; font-size: 1em; line-height: 1.35; }
+.id-details dt { font-size: 14px; text-transform: none; letter-spacing: 0; color: var(--ink); font-weight: 800; }
+.id-rect h2 { font-size: 14px; text-transform: none; letter-spacing: 0.2px; }
+.story-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.story-item { border-top: 1px solid #E1E0DB; padding: 2px 0; }
+.story-item summary {
+  cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font); font-weight: 800; font-size: 15px; padding: 7px 0;
+}
+.story-item summary::-webkit-details-marker { display: none; }
+.story-item summary::after {
+  content: ""; width: 8px; height: 8px; margin: 0 4px 3px 12px; flex: none;
+  border-right: 2.5px solid var(--ink); border-bottom: 2.5px solid var(--ink); transform: rotate(45deg); transition: transform 140ms ease-out;
+}
+.story-item[open] summary::after { transform: rotate(-135deg); margin-bottom: 0; margin-top: 6px; }
+.story-item p { margin: 0 0 8px; line-height: 1.5; }
+
+/* ---------- articles ---------- */
+#articles .grid { grid-auto-rows: auto; }
+#articles .slot { grid-row: auto; }
+.article .face { gap: 8px; min-height: 0; }
+.article-meta { color: var(--muted); font-weight: 600; }
+.article-tldr { line-height: 1.5; max-width: 72ch; }
+.article-tldr b { font-weight: 800; }
+.article-btn { align-self: flex-start; margin-top: 4px; }
+
 </style><!--CSS-END-->
 <!--LD-START-->
 <script type="application/ld+json">
@@ -925,7 +953,7 @@ html:not(.js) main { display: none; }
 <p>Most people run from operational chaos. I run toward it.</p>
 <dl><dt>What I do</dt><dd>Give me an operational headache, a hard deadline, and a room full of stakeholders, and I&#x27;ll figure out what&#x27;s broken and how to fix it.</dd><dt>How I think</dt><dd>I like finding the problem behind the problem. Where others see frustrating roadblocks, I just see a system that hasn&#x27;t been optimized yet.</dd><dt>How this site works</dt><dd>I built my portfolio like Lego blocks. Each project is a single piece that fits into the bigger picture of how I solve operational problems.</dd></dl>
 <h2>At a glance</h2>
-<dl><dt>Program</dt><dd>Master of Supply Chain Management, UW Foster School of Business, graduating June 2027</dd><dt>Base</dt><dd>Seattle</dd><dt>Background</dt><dd>4 years in risk, compliance and fraud operations at Uber</dd><dt>Targeting</dt><dd>Program Manager roles, operations and supply chain, risk and governance</dd></dl>
+<dl><dt>Program</dt><dd>Master of Supply Chain Management, UW Foster, June 2027</dd><dt>Base</dt><dd>Seattle</dd><dt>Background</dt><dd>4 years in risk, compliance and fraud operations at Uber</dd><dt>Targeting</dt><dd>Program Manager roles: operations, supply chain, risk and governance</dd></dl>
 </section>
 <section id="s-problems">
 <h2>Problems I like to solve</h2>
@@ -1054,8 +1082,9 @@ html:not(.js) main { display: none; }
 </section>
 <section id="s-articles">
 <h2>Articles</h2>
-<h3>Why do AI bots still fail to escalate to a human when it actually matters?</h3>
-<p>Publishing soon</p>
+<h3><a href="https://www.linkedin.com/pulse/why-ai-customer-service-fails-handoff-one-missing-check-choudhary-i63bc/">Why AI Customer Service Fails at the Handoff: One Missing Check</a></h3>
+<p>Published Sep 29, 2026, about 5 min read</p>
+<p><strong>TL;DR</strong> Bots already ask whether they can answer and whether they should. They skip a third question: can I actually do this, right now, in this conversation? Asking it before the bot replies sends the customer to a person on the first request, not after 10+.</p>
 </section>
 <section id="s-outside">
 <h2>Outside work</h2>
@@ -1081,8 +1110,8 @@ html:not(.js) main { display: none; }
   <section class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" tabindex="-1"></section>
 </div>
 
-<script src="content.js?v=4a45f420"></script>
+<script src="content.js?v=62ccff01"></script>
 <script src="art.js?v=b8e4da94"></script>
-<script src="app.js?v=783e255a"></script>
+<script src="app.js?v=f9cf7830"></script>
 </body>
 </html>

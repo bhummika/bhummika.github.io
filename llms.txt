@@ -20,3 +20,6 @@ The portfolio is one page. Its full text is in the page source, with no JavaScri
 - Uber Eats India: a market reentry plan after a $244M loss, team project at Foster.
 - Nordstrom Canada: a relaunch strategy after a $775M closure, team project at Foster.
 - HuskyPerks: a mobile web app of 244 student perks for UW, built solo.
+
+## Articles
+- [Why AI Customer Service Fails at the Handoff: One Missing Check](https://www.linkedin.com/pulse/why-ai-customer-service-fails-handoff-one-missing-check-choudhary-i63bc/): published Sep 29, 2026. Argues that support bots should check, before replying, whether they can actually complete the request, so they hand off on the first request instead of after 10+.

@@ -145,6 +145,10 @@ def build_static(c):
                 else:
                     out.append('<h3>%s</h3>' % e(a['title']))
                     out.append(p(c['articles']['soon']))
+                if a.get('published'):
+                    out.append(p(a['published']))
+                if a.get('tldr'):
+                    out.append('<p><strong>%s</strong> %s</p>' % (e(c['articles'].get('tldrLabel', 'TL;DR')), e(a['tldr'])))
         elif kind == 'outside':
             out.append('<h2>%s</h2>' % e(title))
             # lazy: the copy sits off screen while the bricks run, so these only load for no-script readers

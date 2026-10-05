@@ -251,9 +251,12 @@
 
     var story = el('div', { class: 'id-rect id-story', role: 'group', 'aria-label': d.story.label },
       el('p', { class: 'story-lead', text: d.story.lead }));
-    var list = el('ul', { class: 'story-list' });
-    d.story.items.forEach(function (it) {
-      list.appendChild(el('li', null, el('b', { text: it.label }), el('span', { text: it.text })));
+    /* three short rows you can open: the first stands open, so the card is light but nothing is hidden for good */
+    var list = el('div', { class: 'story-list' });
+    d.story.items.forEach(function (it, i) {
+      list.appendChild(el('details', { class: 'story-item', open: i === 0 ? '' : null },
+        el('summary', { text: it.label }),
+        el('p', { text: it.text })));
     });
     story.appendChild(list);
 
@@ -557,12 +560,15 @@
   }
 
   function renderArticles(sec, grid, c) {
-    c.articles.items.forEach(function (a) {
-      var f = brick(sec, grid, 'article', [6, 2]);
-      f.appendChild(el('h3', { class: 'clamp', style: { '-webkit-line-clamp': 3 }, text: a.title }));
+    var A = c.articles;
+    A.items.forEach(function (a) {
+      var f = brick(sec, grid, 'article', [12, 3]);
+      f.appendChild(el('h3', { text: a.title }));
+      if (a.published) f.appendChild(el('p', { class: 'article-meta', text: a.published }));
+      if (a.tldr) f.appendChild(el('p', { class: 'article-tldr' }, el('b', { text: (A.tldrLabel || 'TL;DR') + ' ' }), a.tldr));
       f.appendChild(a.link
-        ? el('a', { class: 'article-link', href: a.link, target: '_blank', rel: 'noopener noreferrer', text: 'Read the article' })
-        : el('span', { class: 'article-soon', text: c.articles.soon }));
+        ? el('a', { class: 'btn article-btn', href: a.link, target: '_blank', rel: 'noopener noreferrer', text: A.read || 'Read the article' })
+        : el('span', { class: 'article-soon', text: A.soon }));
       f.appendChild(art(a.art, 'article-art'));
     });
   }

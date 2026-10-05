@@ -104,12 +104,12 @@ window.CONTENT = {
     },
     "article": {
       "min": [
-        6,
-        2
+        12,
+        3
       ],
       "max": [
-        6,
-        2
+        12,
+        3
       ]
     },
     "outside": {
@@ -222,7 +222,7 @@ window.CONTENT = {
     "details": [
       {
         "label": "Program",
-        "value": "Master of Supply Chain Management, UW Foster School of Business, graduating June 2027"
+        "value": "Master of Supply Chain Management, UW Foster, June 2027"
       },
       {
         "label": "Base",
@@ -234,7 +234,7 @@ window.CONTENT = {
       },
       {
         "label": "Targeting",
-        "value": "Program Manager roles, operations and supply chain, risk and governance"
+        "value": "Program Manager roles: operations, supply chain, risk and governance"
       }
     ],
     "story": {
@@ -314,41 +314,22 @@ window.CONTENT = {
       {
         "value": "5,000+",
         "caption": "cases in the global appeals queue I managed, over two years",
-        "id": "appeals",
-        "count": {
-          "to": 5000,
-          "suffix": "+",
-          "group": true
-        }
+        "id": "appeals"
       },
       {
         "value": "2,000+",
         "caption": "fraud cases investigated across the US and Canada, in one year",
-        "id": "fraud-cases",
-        "count": {
-          "to": 2000,
-          "suffix": "+",
-          "group": true
-        }
+        "id": "fraud-cases"
       },
       {
         "value": "About 40%",
         "caption": "fewer minor process errors than before I introduced a policy questions tracker for the team",
-        "id": "errors",
-        "count": {
-          "to": 40,
-          "prefix": "About ",
-          "suffix": "%"
-        }
+        "id": "errors"
       },
       {
         "value": "30%",
         "caption": "faster onboarding of new hires, from the training I led",
-        "id": "onboarding",
-        "count": {
-          "to": 30,
-          "suffix": "%"
-        }
+        "id": "onboarding"
       }
     ]
   },
@@ -1013,11 +994,15 @@ window.CONTENT = {
     "soon": "Publishing soon",
     "items": [
       {
-        "title": "Why do AI bots still fail to escalate to a human when it actually matters?",
-        "link": "",
-        "art": "robot"
+        "title": "Why AI Customer Service Fails at the Handoff: One Missing Check",
+        "link": "https://www.linkedin.com/pulse/why-ai-customer-service-fails-handoff-one-missing-check-choudhary-i63bc/",
+        "art": "robot",
+        "published": "Published Sep 29, 2026, about 5 min read",
+        "tldr": "Bots already ask whether they can answer and whether they should. They skip a third question: can I actually do this, right now, in this conversation? Asking it before the bot replies sends the customer to a person on the first request, not after 10+."
       }
-    ]
+    ],
+    "tldrLabel": "TL;DR",
+    "read": "Read the article"
   },
   "outside": {
     "items": [
@@ -1026,32 +1011,32 @@ window.CONTENT = {
         "alt": "A hand held tufting tool working on a stretched cloth frame, with spools of colored yarn on a wall behind",
         "caption": "Tufting",
         "webp": "img/outside1.webp",
-        "width": 700,
-        "height": 525
+        "width": 1100,
+        "height": 825
       },
       {
         "src": "img/outside2.jpg",
         "alt": "A person wearing glasses examining a hand shaped clay cup at a pottery table",
         "caption": "Ceramic building",
         "webp": "img/outside2.webp",
-        "width": 525,
-        "height": 700
+        "width": 825,
+        "height": 1100
       },
       {
         "src": "img/outside3.jpg",
         "alt": "A person in a printing apron lifting a wooden block over an ink tray in a block printing studio",
         "caption": "Hand block fabric painting",
         "webp": "img/outside3.webp",
-        "width": 525,
-        "height": 700
+        "width": 825,
+        "height": 1100
       },
       {
         "src": "img/outside4.jpg",
         "alt": "A person working on a craft piece at a table with a view of a Bali style temple garden",
         "caption": "Palm leaf painting",
         "webp": "img/outside4.webp",
-        "width": 527,
-        "height": 700
+        "width": 828,
+        "height": 1100
       }
     ],
     "line": "You'll usually find me trying out a new hobby or starting a hands-on project. If you've explored similar hobbies or want to share what you're into, I'm all ears!"
