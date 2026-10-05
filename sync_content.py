@@ -126,11 +126,15 @@ def build_static(c):
                 out.append('</article>')
         elif kind == 'experience':
             out.append('<h2>%s</h2>' % e(title))
-            for r in c['experience']['roles']:
+            for r in reversed(c['experience']['roles']):
                 out.append('<article><h3>%s</h3>' % e(r['title']))
                 out.append(p('%s, %s' % (r['org'], r['dates'])))
                 out.append(ul(r['bullets']))
                 out.append('</article>')
+            edu = c['experience'].get('education')
+            if edu:
+                out.append('<h3>%s</h3>' % e(edu['label']))
+                out.append(ul(['%s, %s, %s%s' % (i['degree'], i['school'], i['when'], (' (' + i['note'] + ')') if i.get('note') else '') for i in edu['items']]))
         elif kind == 'education':
             out.append('<h2>%s</h2>' % e(title))
             for i in c['education']['items']:

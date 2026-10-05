@@ -939,3 +939,59 @@ html:not(.js) main { display: none; }
 .pcard2 .pc-lines div:nth-child(2) { display: none; }
 .pcard2 .pc-lines dd { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 @media (max-width: 767px) { .pc-pic { height: min(400px, 52vh); min-height: 260px; } }
+
+/* ---------- experience: one employer, three roles, education in two lines ---------- */
+#experience .grid { grid-auto-rows: auto; }
+#experience .slot.career-slot { grid-row: auto; }
+.career .face { padding: 26px 28px 22px; display: flex; flex-direction: column; gap: 18px; }
+.career-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 18px; }
+.career-org { font-size: 1.6em; font-weight: 800; line-height: 1.1; margin: 0 0 4px; }
+.career-line { margin: 0; color: var(--muted); font-weight: 600; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.career-badge { color: var(--ink); background: var(--yellow); border-bottom: 3px solid var(--yellow-edge); border-radius: 5px; padding: 2px 9px; font-weight: 800; font-size: 14px; }
+/* three bricks rising: one per role */
+.career-steps { display: flex; align-items: flex-end; gap: 4px; flex: none; }
+.career-steps i {
+  display: block; width: 22px; height: calc(var(--h) * 14px); border-radius: 3px;
+  background: #4A7396; border-bottom: 4px solid #355670; position: relative;
+}
+.career-steps i::before {
+  content: ""; position: absolute; left: 5px; top: -4px; width: 12px; height: 5px; border-radius: 2px 2px 0 0; background: #4A7396;
+}
+.career-roles { list-style: none; margin: 0; padding: 0; border-top: 2px solid #E1E0DB; }
+.career-roles li { border-bottom: 2px solid #E1E0DB; }
+.career-row {
+  width: 100%; display: grid; grid-template-columns: 10px minmax(0, 15em) minmax(0, 1fr) auto; align-items: center; gap: 18px;
+  padding: 14px 6px; background: none; border: 0; text-align: left; font: inherit; color: inherit; cursor: pointer; border-radius: 6px;
+}
+.career-row:hover, .career-row:focus-visible { background: #F1F0EC; }
+.career-mark { width: 10px; height: calc(10px + var(--h) * 8px); border-radius: 3px; background: #4A7396; align-self: center; }
+.career-main { display: flex; flex-direction: column; gap: 2px; }
+.career-title { font-weight: 800; line-height: 1.25; }
+.career-dates { color: var(--muted); font-size: 14px; font-weight: 600; }
+.career-result { font-weight: 700; line-height: 1.4; }
+.career-more { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 14px; white-space: nowrap; }
+.career-more .ico { width: 14px; height: 14px; }
+.career-edu { display: grid; grid-template-columns: 10em minmax(0, 1fr); gap: 6px 18px; align-items: baseline; }
+.career-edu-label { margin: 0; font-weight: 800; color: var(--muted); font-size: 14px; }
+.career-edu ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.career-edu li { line-height: 1.4; }
+.career-now { margin-left: 8px; font-size: 13px; font-weight: 800; padding: 1px 7px; border-radius: 4px; background: #E3EDE4; color: #3F5E44; }
+@media (max-width: 767px) {
+  .career .face { padding: 20px 18px 18px; gap: 14px; }
+  .career-org { font-size: 1.35em; }
+  .career-row { grid-template-columns: 10px minmax(0, 1fr) auto; grid-template-areas: "m main more" "m res res"; gap: 4px 12px; }
+  .career-mark { grid-area: m; align-self: stretch; height: auto; }
+  .career-main { grid-area: main; }
+  .career-result { grid-area: res; font-weight: 600; }
+  .career-more { grid-area: more; align-self: start; }
+  .career-edu { grid-template-columns: 1fr; }
+}
+.career-badge { white-space: nowrap; }
+.bench-item { flex-wrap: wrap; min-width: 0; }
+@media (max-width: 767px) {
+  .career-row { grid-template-columns: 10px minmax(0, 1fr); grid-template-areas: "m main" "m res" "m more"; gap: 4px 12px; }
+  .career-more { justify-self: start; margin-top: 2px; }
+  .career-head { align-items: flex-start; }
+  .career-steps i { width: 16px; height: calc(var(--h) * 11px); }
+  .career-steps i::before { left: 3px; width: 10px; }
+}

@@ -867,10 +867,11 @@
   },
   "experience": {
     "labels": {
-      "open": "Open details",
+      "open": "Details",
       "org": "Uber",
       "responsibilities": "Roles and responsibilities",
-      "skills": "Skills used"
+      "skills": "Skills used",
+      "newest": "Roles, newest first"
     },
     "roles": [
       {
@@ -977,6 +978,28 @@
         }
       ],
       "openLabel": "Open details"
+    },
+    "layout": "career",
+    "employer": {
+      "name": "Uber",
+      "line": "Hyderabad, India · Aug 2022 to May 2026",
+      "badge": "Promoted twice"
+    },
+    "education": {
+      "label": "Education",
+      "items": [
+        {
+          "degree": "Master of Supply Chain Management",
+          "school": "UW Foster School of Business",
+          "when": "June 2027",
+          "note": "In progress"
+        },
+        {
+          "degree": "B.S. Biotechnology and Microbiology",
+          "school": "St. Francis College for Women, Hyderabad",
+          "when": "2022"
+        }
+      ]
     }
   },
   "education": {

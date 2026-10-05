@@ -524,8 +524,54 @@
     });
   }
 
+  /* Experience, kept plain for a quick scan: one employer, three roles newest first with the result
+     in view, a small rising stack for the promotions, and education as two short lines. */
+  function renderCareer(sec, grid, c) {
+    var x = c.experience, E = x.employer;
+    var face = brick(sec, grid, 'career', [12, 6]);
+    face.parentNode.parentNode.classList.add('career-slot');
+
+    var roles = x.roles.slice().reverse();
+    var steps = el('span', { class: 'career-steps', 'aria-hidden': 'true' });
+    x.roles.forEach(function (r, i) { steps.appendChild(el('i', { style: { '--h': (i + 1) } })); });
+
+    face.appendChild(el('div', { class: 'career-head' },
+      el('div', null,
+        el('h3', { class: 'career-org', text: E.name }),
+        el('p', { class: 'career-line' }, E.line, ' ', el('span', { class: 'career-badge', text: E.badge }))),
+      steps));
+
+    var list = el('ol', { class: 'career-roles', 'aria-label': x.labels.newest });
+    roles.forEach(function (r, i) {
+      var btn = el('button', { class: 'career-row', type: 'button', 'aria-haspopup': 'dialog' },
+        el('span', { class: 'career-mark', 'aria-hidden': 'true', style: { '--h': (roles.length - i) } }),
+        el('span', { class: 'career-main' },
+          el('span', { class: 'career-title', text: r.title }),
+          el('span', { class: 'career-dates', text: r.dates })),
+        el('span', { class: 'career-result', text: r.headline }),
+        el('span', { class: 'career-more' }, x.labels.open, icon('arrow')));
+      btn.addEventListener('click', function () { openRole(r, btn); });
+      list.appendChild(el('li', { 'data-role-id': r.id }, btn));
+    });
+    face.appendChild(list);
+
+    if (x.education) {
+      var ed = el('div', { class: 'career-edu' }, el('p', { class: 'career-edu-label', text: x.education.label }));
+      var eul = el('ul');
+      x.education.items.forEach(function (it) {
+        eul.appendChild(el('li', null,
+          el('b', { text: it.degree }),
+          el('span', { text: ', ' + it.school + ', ' + it.when }),
+          it.note ? el('span', { class: 'career-now', text: it.note }) : null));
+      });
+      ed.appendChild(eul);
+      face.appendChild(ed);
+    }
+  }
+
   function renderExperience(sec, grid, c) {
     var x = c.experience;
+    if (x.layout === 'career') return renderCareer(sec, grid, c);
     if (x.tracker) return renderTracker(sec, grid, c);
     x.roles.forEach(function (r) {
       var face = brick(sec, grid, 'role', [4, 4]);
