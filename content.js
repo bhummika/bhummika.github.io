@@ -48,7 +48,7 @@ window.CONTENT = {
         3
       ],
       "max": [
-        6,
+        12,
         5
       ]
     },
@@ -141,6 +141,16 @@ window.CONTENT = {
         6,
         3
       ]
+    },
+    "trackhead": {
+      "min": [
+        12,
+        1
+      ],
+      "max": [
+        12,
+        1
+      ]
     }
   },
   "sections": [
@@ -206,8 +216,13 @@ window.CONTENT = {
   ],
   "intro": {
     "photo": {
-      "src": "img/headshot.jpg",
-      "alt": "Portrait of Bhumika Choudhary smiling, with dark wavy hair, wearing a black off the shoulder top, in front of green trees"
+      "src": "img/headshot.webp",
+      "srcset": "img/headshot.webp 512w, img/headshot@2x.webp 1024w",
+      "sizes": "(max-width: 767px) 340px, 34vw",
+      "width": 512,
+      "height": 512,
+      "alt": "Portrait of Bhumika Choudhary smiling, with dark wavy hair, wearing a black off the shoulder top, in front of green trees",
+      "fallback": "img/headshot.jpg"
     },
     "heading": "Hi, I am Bhumika.",
     "aka": "You can also call me Sara",
@@ -258,7 +273,8 @@ window.CONTENT = {
           4,
           3
         ],
-        "text": "Finding the signal in noisy data. Four years of case investigation taught me real risk rarely announces itself with a keyword."
+        "text": "Finding the signal in noisy data. Four years of case investigation taught me real risk rarely announces itself with a keyword.",
+        "id": "fraud"
       },
       {
         "title": "Escalation and judgment systems",
@@ -267,7 +283,8 @@ window.CONTENT = {
           4,
           3
         ],
-        "text": "Deciding who handles what, and how, explicitly and on purpose. Not by instinct, not by a trigger word."
+        "text": "Deciding who handles what, and how, explicitly and on purpose. Not by instinct, not by a trigger word.",
+        "id": "escalation"
       },
       {
         "title": "Sourcing and network design",
@@ -276,7 +293,8 @@ window.CONTENT = {
           4,
           3
         ],
-        "text": "Where something should come from and how it should move, weighed against cost, lead time, and risk."
+        "text": "Where something should come from and how it should move, weighed against cost, lead time, and risk.",
+        "id": "sourcing"
       },
       {
         "title": "Process and SOP design",
@@ -285,7 +303,8 @@ window.CONTENT = {
           6,
           3
         ],
-        "text": "Turning the workaround everyone has quietly gotten used to into a system that actually holds."
+        "text": "Turning the workaround everyone has quietly gotten used to into a system that actually holds.",
+        "id": "process"
       },
       {
         "title": "Strategic turnarounds",
@@ -294,25 +313,49 @@ window.CONTENT = {
           6,
           3
         ],
-        "text": "Diagnosing why something failed, honestly, before building the plan to fix it."
+        "text": "Diagnosing why something failed, honestly, before building the plan to fix it.",
+        "id": "turnarounds"
       }
     ],
     "numbers": [
       {
         "value": "5,000+",
-        "caption": "cases in the global appeals queue I managed, over two years"
+        "caption": "cases in the global appeals queue I managed, over two years",
+        "id": "appeals",
+        "count": {
+          "to": 5000,
+          "suffix": "+",
+          "group": true
+        }
       },
       {
         "value": "2,000+",
-        "caption": "fraud cases investigated across the US and Canada, in one year"
+        "caption": "fraud cases investigated across the US and Canada, in one year",
+        "id": "fraud-cases",
+        "count": {
+          "to": 2000,
+          "suffix": "+",
+          "group": true
+        }
       },
       {
-        "value": "About 40%",
-        "caption": "fewer minor process errors than before I introduced a policy questions tracker for the team"
+        "value": "~40%",
+        "caption": "fewer minor process errors than before I introduced a policy questions tracker for the team",
+        "id": "errors",
+        "count": {
+          "to": 40,
+          "prefix": "~",
+          "suffix": "%"
+        }
       },
       {
         "value": "30%",
-        "caption": "faster onboarding of new hires, from the training I led"
+        "caption": "faster onboarding of new hires, from the training I led",
+        "id": "onboarding",
+        "count": {
+          "to": 30,
+          "suffix": "%"
+        }
       }
     ]
   },
@@ -327,7 +370,13 @@ window.CONTENT = {
       "inBuild": "In build",
       "open": "Read the full case",
       "numbers": "Numbers",
-      "focus": "Focus"
+      "focus": "Focus",
+      "featured": "Featured",
+      "readCase": "Read the case",
+      "workbench": "On the workbench",
+      "problemShort": "Problem",
+      "didShort": "What I did",
+      "resultShort": "Result"
     },
     "items": [
       {
@@ -434,6 +483,19 @@ window.CONTENT = {
               "href": "https://claude.ai/code/artifact/52cd1af1-cfb3-4469-b448-a7c9f733f5b0"
             }
           ]
+        },
+        "featured": true,
+        "type": "built",
+        "oneProblem": "AI support decides escalation by keyword and empathy by apology template.",
+        "did": "Modelled escalation as signal detection and empathy as one bounded acknowledgment, tested on 82,779 real support tickets.",
+        "result": "A two layer, auditable framework with five testable predictions and a live dashboard.",
+        "headline": {
+          "value": "82,779",
+          "label": "real tickets modeled"
+        },
+        "cta": {
+          "label": "Try the live demo",
+          "href": "https://claude.ai/code/artifact/52cd1af1-cfb3-4469-b448-a7c9f733f5b0"
         }
       },
       {
@@ -509,6 +571,15 @@ window.CONTENT = {
             }
           ],
           "links": []
+        },
+        "type": "strategy",
+        "role": "Team project",
+        "oneProblem": "Uber Eats lost $244M in India and sold the business in 2020.",
+        "did": "Diagnosed the loss and built a reentry plan on assets Uber already owns.",
+        "result": "Three cost cutting strategies, led by business customers.",
+        "headline": {
+          "value": "$244M",
+          "label": "prior loss diagnosed"
         }
       },
       {
@@ -616,6 +687,15 @@ window.CONTENT = {
             }
           ],
           "links": []
+        },
+        "type": "strategy",
+        "role": "Team project",
+        "oneProblem": "Nordstrom Canada burned $775M and closed in 2023 without a profitable year.",
+        "did": "Found where the strategy fell short and rebuilt it for Canadian shoppers.",
+        "result": "A four pillar relaunch strategy with headline targets.",
+        "headline": {
+          "value": "$775M",
+          "label": "capital burned"
         }
       },
       {
@@ -693,6 +773,19 @@ window.CONTENT = {
               "href": "https://husky-perks-deals.lovable.app"
             }
           ]
+        },
+        "type": "built",
+        "role": "Solo",
+        "oneProblem": "UW students had plenty of deals but no easy way to find the ones nearby.",
+        "did": "Designed and vibe coded a mobile deals app, from concept to product.",
+        "result": "A live app in days, not months.",
+        "headline": {
+          "value": "Days",
+          "label": "concept to live app"
+        },
+        "cta": {
+          "label": "Try it",
+          "href": "https://husky-perks-deals.lovable.app"
         }
       },
       {
@@ -704,7 +797,9 @@ window.CONTENT = {
         ],
         "status": "In build",
         "empty": true,
-        "art": "chart"
+        "art": "chart",
+        "workbench": true,
+        "workbenchNote": "In build"
       },
       {
         "id": "key-electronics",
@@ -719,9 +814,16 @@ window.CONTENT = {
           "Warehousing"
         ],
         "skills": [],
-        "art": "truck"
+        "art": "truck",
+        "workbench": true,
+        "workbenchNote": "Case write up coming"
       }
-    ]
+    ],
+    "layout": "featured",
+    "types": {
+      "built": "Built",
+      "strategy": "Strategy case"
+    }
   },
   "experience": {
     "labels": {
@@ -732,7 +834,7 @@ window.CONTENT = {
     },
     "roles": [
       {
-        "id": "role-sqrc",
+        "id": "sqrc-i",
         "org": "Uber",
         "title": "SQRC Specialist I",
         "dates": "Aug 2022 to Aug 2023",
@@ -748,7 +850,7 @@ window.CONTENT = {
         ]
       },
       {
-        "id": "role-rc2",
+        "id": "rc-ii",
         "org": "Uber",
         "title": "Risk and Compliance Specialist II",
         "dates": "Aug 2023 to May 2025",
@@ -767,7 +869,7 @@ window.CONTENT = {
         ]
       },
       {
-        "id": "role-rc3",
+        "id": "rc-iii",
         "org": "Uber",
         "title": "Risk and Compliance Specialist III",
         "dates": "May 2025 to May 2026",
@@ -785,7 +887,60 @@ window.CONTENT = {
           "stakeholder-management"
         ]
       }
-    ]
+    ],
+    "tracker": {
+      "label": "Tracking",
+      "code": "BC-2022-SEA",
+      "shipmentLabel": "Shipment",
+      "shipment": "Bhumika Choudhary",
+      "statusLabel": "Status",
+      "status": "Out for delivery",
+      "stops": [
+        {
+          "id": "packed",
+          "stage": "Packed",
+          "title": "B.S. Biotechnology and Microbiology",
+          "where": "St. Francis College for Women, Hyderabad",
+          "when": "June 2022",
+          "art": "flask"
+        },
+        {
+          "id": "sqrc-i",
+          "role": "sqrc-i",
+          "stage": "Picked up"
+        },
+        {
+          "id": "rc-ii",
+          "role": "rc-ii",
+          "stage": "In transit"
+        },
+        {
+          "id": "rc-iii",
+          "role": "rc-iii",
+          "stage": "Scanned"
+        },
+        {
+          "id": "mscm",
+          "stage": "Out for delivery",
+          "title": "Master of Supply Chain Management",
+          "where": "UW Foster School of Business, Seattle",
+          "when": "June 2027 expected",
+          "art": "cap",
+          "current": true
+        },
+        {
+          "id": "delivery",
+          "stage": "Delivered",
+          "title": "To your team?",
+          "where": "Program management, operations, supply chain, risk",
+          "when": "2027",
+          "art": "truck",
+          "pending": true,
+          "href": "#contact"
+        }
+      ],
+      "openLabel": "Open details"
+    }
   },
   "education": {
     "items": [
@@ -836,22 +991,34 @@ window.CONTENT = {
       {
         "src": "img/outside1.jpg",
         "alt": "A hand held tufting tool working on a stretched cloth frame, with spools of colored yarn on a wall behind",
-        "caption": "Tufting"
+        "caption": "Tufting",
+        "webp": "img/outside1.webp",
+        "width": 700,
+        "height": 525
       },
       {
         "src": "img/outside2.jpg",
         "alt": "A person wearing glasses examining a hand shaped clay cup at a pottery table",
-        "caption": "Ceramic building"
+        "caption": "Ceramic building",
+        "webp": "img/outside2.webp",
+        "width": 525,
+        "height": 700
       },
       {
         "src": "img/outside3.jpg",
         "alt": "A person in a printing apron lifting a wooden block over an ink tray in a block printing studio",
-        "caption": "Hand block fabric painting"
+        "caption": "Hand block fabric painting",
+        "webp": "img/outside3.webp",
+        "width": 525,
+        "height": 700
       },
       {
         "src": "img/outside4.jpg",
         "alt": "A person working on a craft piece at a table with a view of a Bali style temple garden",
-        "caption": "Palm leaf painting"
+        "caption": "Palm leaf painting",
+        "webp": "img/outside4.webp",
+        "width": 527,
+        "height": 700
       }
     ],
     "line": "You'll usually find me trying out a new hobby or starting a hands-on project. If you've explored similar hobbies or want to share what you're into, I'm all ears!"
@@ -904,5 +1071,99 @@ window.CONTENT = {
       "copy": "Copy address",
       "copied": "Copied"
     }
+  },
+  "focus": {
+    "paramLabel": "Showing what matters for",
+    "clear": "Show everything",
+    "groups": [
+      {
+        "id": "supply-chain",
+        "label": "Supply chain and operations",
+        "targeting": "Program Manager and analyst roles in supply chain and operations",
+        "skills": [
+          "process-optimization",
+          "project-management",
+          "sop-design",
+          "stakeholder-management"
+        ],
+        "projects": [
+          "key-electronics",
+          "lp-dashboard",
+          "uber-eats-india",
+          "nordstrom-canada"
+        ],
+        "roles": [
+          "rc-iii",
+          "rc-ii"
+        ],
+        "problems": [
+          "sourcing",
+          "process",
+          "turnarounds"
+        ],
+        "numbers": [
+          "errors",
+          "onboarding"
+        ]
+      },
+      {
+        "id": "risk-compliance",
+        "label": "Risk and compliance",
+        "targeting": "Risk, compliance and fraud operations roles",
+        "skills": [
+          "quality-management",
+          "sop-design",
+          "stakeholder-management",
+          "jira"
+        ],
+        "projects": [
+          "trustbridge"
+        ],
+        "roles": [
+          "sqrc-i",
+          "rc-ii",
+          "rc-iii"
+        ],
+        "problems": [
+          "fraud",
+          "escalation",
+          "process"
+        ],
+        "numbers": [
+          "appeals",
+          "fraud-cases",
+          "errors"
+        ]
+      },
+      {
+        "id": "program-management",
+        "label": "Program and project management",
+        "targeting": "Program and project management roles",
+        "skills": [
+          "project-management",
+          "stakeholder-management",
+          "process-optimization",
+          "jira"
+        ],
+        "projects": [
+          "trustbridge",
+          "huskyperks",
+          "nordstrom-canada"
+        ],
+        "roles": [
+          "rc-ii",
+          "rc-iii"
+        ],
+        "problems": [
+          "escalation",
+          "process",
+          "turnarounds"
+        ],
+        "numbers": [
+          "appeals",
+          "onboarding"
+        ]
+      }
+    ]
   }
 };

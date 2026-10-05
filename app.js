@@ -11,12 +11,15 @@
     piece: { dur: 620,  gap: 700 }
   };
   var FADE_MS = 150;
+  var MAX_STAGGER = 600;   /* ms from the first brick of a batch to the last */
+  var COUNT_MS = 900;      /* how long a number brick counts up to its value */
 
   var root = document.documentElement;
   var $main = document.getElementById('sections');
   var state = {
     content: null, secs: [], bricks: [], scrubs: [], locked: 0, contactLocked: false,
-    skip: false, sound: false, skillEls: {}, skillNames: {}, lastPointer: 'mouse'
+    skip: false, sound: false, skillEls: {}, skillNames: {}, lastPointer: 'mouse',
+    focus: null, targetingDefault: ''
   };
 
   /* ---------- helpers ---------- */
@@ -183,6 +186,20 @@
   /* ---------- section renderers ---------- */
   function art(name, cls) { return window.ART ? window.ART.make(name, cls) : null; }
 
+  /* WebP with a JPEG fallback. width and height are always set, so nothing jumps while loading. */
+  function photo(p, opts) {
+    opts = opts || {};
+    var img = el('img', {
+      src: p.fallback || p.src, alt: p.alt, width: p.width, height: p.height,
+      loading: opts.lazy ? 'lazy' : null, decoding: opts.lazy ? 'async' : null,
+      fetchpriority: opts.priority ? 'high' : null
+    });
+    if (!p.srcset && !p.webp) return img;
+    return el('picture', null,
+      el('source', { type: 'image/webp', srcset: p.srcset || p.webp, sizes: p.sizes || null }),
+      img);
+  }
+
   function renderIntro(sec, grid, c) {
     var d = c.intro;
     var face = brick(sec, grid, 'idcard', [12, 8], { solid: true });
@@ -191,7 +208,10 @@
 
     var dl = el('dl');
     d.details.forEach(function (row) {
-      dl.appendChild(el('div', null, el('dt', { text: row.label }), el('dd', { text: row.value })));
+      var isTarget = /^targeting$/i.test(row.label);
+      if (isTarget) state.targetingDefault = row.value;
+      dl.appendChild(el('div', null, el('dt', { text: row.label }),
+        el('dd', { text: row.value, 'data-detail': isTarget ? 'targeting' : null })));
     });
 
     var story = el('div', { class: 'id-rect id-story', role: 'group', 'aria-label': d.story.label },
@@ -206,7 +226,7 @@
       el('div', { class: 'id-head' },
         el('h1', { text: d.heading }),
         el('p', { class: 'id-aka', text: d.aka })),
-      el('div', { class: 'id-photo' }, el('img', { src: d.photo.src, alt: d.photo.alt, width: 746, height: 746 })),
+      el('div', { class: 'id-photo' }, photo(d.photo, { priority: true })),
       story,
       el('div', { class: 'id-rect id-details' }, el('h2', { text: d.detailsTitle }), dl)));
   }
@@ -215,15 +235,46 @@
     var a = c.about;
     a.problems.forEach(function (p) {
       var f = brick(sec, grid, 'solve', p.size);
+      if (p.id) f.parentNode.parentNode.setAttribute('data-problem-id', p.id);
       f.appendChild(art(p.art, 'solve-art'));
       f.appendChild(el('h3', { text: p.title }));
       f.appendChild(el('p', { text: p.text }));
     });
     a.numbers.forEach(function (n) {
       var f = brick(sec, grid, 'number', [3, 2]);
-      f.appendChild(el('p', { class: 'number-value', text: n.value }));
+      /* the final value is in the markup from the start, so a reader, a screen reader or a
+         printer never sees a half counted number; the count only replaces it while animating */
+      var value = el('p', { class: 'number-value' },
+        el('span', { class: 'sr-only', text: n.value }),                  /* always the real value */
+        el('span', { class: 'number-digits', 'aria-hidden': 'true', text: n.value }));
+      f.appendChild(value);
       f.appendChild(el('p', { class: 'number-caption', text: n.caption }));
+      if (n.count) countUpOnLand(f, value.lastChild, n);
+      if (n.id) f.parentNode.parentNode.setAttribute('data-number-id', n.id);
     });
+  }
+
+  /* Counts a number brick up to its value as it lands. In fade or skip mode nothing moves and the
+     value simply stands there. Only the decorative copy animates, so assistive tech reads one number. */
+  function countUpOnLand(face, digits, n) {
+    var c = n.count;
+    function fmt(v) {
+      return (c.prefix || '') + (c.group ? v.toLocaleString('en-US') : String(v)) + (c.suffix || '');
+    }
+    /* while the brick flies in it shows the starting figure, so the count does not jump back */
+    face._prime = function () { if (mode() === 'full') digits.textContent = fmt(0); };
+    face._count = function () {
+      if (mode() !== 'full') { digits.textContent = n.value; return; }
+      var t0 = 0;
+      function step(t) {
+        if (!t0) t0 = t;
+        var p = Math.min(1, (t - t0) / COUNT_MS);
+        digits.textContent = p < 1 ? fmt(Math.round(c.to * (1 - Math.pow(1 - p, 3)))) : n.value;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    };
+    face._count.final = function () { digits.textContent = n.value; };
   }
 
   function statusClass(s) {
@@ -234,11 +285,70 @@
     return !!(item.case || item.problem || (item.process && item.process.length) || item.result || item.inputs || (item.link && item.link.href));
   }
 
+  /* Projects, featured layout: the best project across the full width, the rest as cards with the
+     same anatomy (problem, what I did, result, one number, buttons), unfinished work as one strip. */
+  function projectCard(sec, grid, c, item, wide) {
+    var P = c.projects, L = P.labels;
+    var face = brick(sec, grid, 'project pcard2' + (wide ? ' feature' : ''), wide ? [12, 4] : [4, 5]);
+    face.parentNode.parentNode.classList.add(wide ? 'feature-slot' : 'card-slot');
+    var slot = face.parentNode.parentNode;
+    slot.setAttribute('data-project-id', item.id);
+
+    var chips = el('div', { class: 'pc-chips' },
+      wide ? el('span', { class: 'pc-chip feat', text: L.featured }) : null,
+      item.type ? el('span', { class: 'pc-chip', text: P.types[item.type] }) : null,
+      item.status ? el('span', { class: 'tag ' + statusClass(item.status), text: item.status }) : null,
+      item.role ? el('span', { class: 'pc-chip role', text: item.role }) : null);
+
+    var lines = el('dl', { class: 'pc-lines' });
+    [[L.problemShort, item.oneProblem], [L.didShort, item.did], [L.resultShort, item.result]].forEach(function (r) {
+      if (r[1]) lines.appendChild(el('div', null, el('dt', { text: r[0] }), el('dd', { text: r[1] })));
+    });
+
+    var read = el('button', { class: 'btn light', type: 'button', 'aria-haspopup': 'dialog', text: L.readCase });
+    read.addEventListener('click', function () { if (item.case) openCase(item, read); else openPanel(item, read); });
+    var actions = el('div', { class: 'pc-actions' },
+      item.cta ? el('a', { class: 'btn', href: item.cta.href, target: '_blank', rel: 'noopener noreferrer', text: item.cta.label }) : null,
+      hasDetail(item) ? read : null);
+
+    face.appendChild(el('div', { class: 'pc-body' },
+      el('div', { class: 'pc-head' },
+        el('div', { class: 'pc-headtext' }, chips,
+          el('h3', { class: 'pc-title', text: item.title }),
+          item.subtitle ? el('p', { class: 'pc-sub', text: item.subtitle }) : null),
+        art(item.art, 'pc-art')),
+      el('div', { class: 'pc-main' }, lines,
+        item.headline ? el('div', { class: 'pstat pc-num' }, el('b', { text: item.headline.value }), el('span', { text: item.headline.label })) : null),
+      actions));
+    linkSkills(face, slot, item.skills, false);
+  }
+
+  function renderProjectsFeatured(sec, grid, c) {
+    var P = c.projects;
+    var items = P.items.filter(function (i) { return !i.workbench; });
+    var feat = items.filter(function (i) { return i.featured; });
+    feat.forEach(function (i) { projectCard(sec, grid, c, i, true); });
+    items.filter(function (i) { return !i.featured; }).forEach(function (i) { projectCard(sec, grid, c, i, false); });
+
+    var bench = P.items.filter(function (i) { return i.workbench; });
+    if (!bench.length) return;
+    var strip = el('div', { class: 'bench' }, el('span', { class: 'bench-label', text: P.labels.workbench }));
+    bench.forEach(function (i) {
+      strip.appendChild(el('span', { class: 'bench-item', 'data-project-id': i.id },
+        art(i.art, 'bench-art'),
+        el('b', { text: i.title }),
+        el('span', { class: 'tag t-build', text: i.workbenchNote || P.labels.inBuild })));
+    });
+    plainSlot(grid, [12, 1]).appendChild(strip);
+  }
+
   function renderProjects(sec, grid, c) {
     var p = c.projects;
+    if (p.layout === 'featured') return renderProjectsFeatured(sec, grid, c);
     p.items.forEach(function (item) {
       if (item.empty) {
         var slot = emptySlot(grid, item.size, 'proj-empty');
+        if (item.id) slot.setAttribute('data-project-id', item.id);
         slot.setAttribute('role', 'group');
         slot.setAttribute('aria-label', item.title + ', ' + p.labels.inBuild);
         slot.appendChild(art(item.art, 'empty-art'));
@@ -247,6 +357,7 @@
         return;
       }
       var face = brick(sec, grid, 'project', item.size);
+      if (item.id) face.parentNode.parentNode.setAttribute('data-project-id', item.id);
       var big = item.size[0] >= 6;
       var summary = item.summary || item.problem;
       var inner = [
@@ -293,10 +404,65 @@
     });
   }
 
+  /* Experience as a shipment tracker: one brick per stop along a route from her degree to
+     "delivered". The roles keep their own detail panels; the other stops are plain stops. */
+  function renderTracker(sec, grid, c) {
+    var x = c.experience;
+    var t = x.tracker;
+    var byRole = {};
+    x.roles.forEach(function (r) { byRole[r.id] = r; });
+
+    var head = brick(sec, grid, 'trackhead', [12, 1], { solid: true });
+    head.appendChild(el('div', { class: 'track-head' },
+      el('p', null, el('b', { text: t.label + ' ' }), el('span', { class: 'track-code', text: t.code })),
+      el('p', null, el('b', { text: t.shipmentLabel + ' ' }), el('span', { text: t.shipment })),
+      el('p', { class: 'track-status' }, el('b', { text: t.statusLabel + ' ' }), el('span', { text: t.status }))));
+
+    var line = el('div', { class: 'track' });
+    plainSlot(grid, [12, 2]).appendChild(line);
+    line.appendChild(el('span', { class: 'track-rail', 'aria-hidden': 'true' }));
+
+    t.stops.forEach(function (s, i) {
+      var r = s.role ? byRole[s.role] : null;
+      var stop = el('div', { class: 'stop' + (s.current ? ' current' : '') + (s.pending ? ' pending' : ''),
+        style: { '--i': i } });
+      var inner = [
+        el('span', { class: 'stop-dot', 'aria-hidden': 'true' }),
+        el('p', { class: 'stop-stage', text: s.stage }),
+        el('h3', { class: 'stop-title', text: r ? r.title : s.title }),
+        el('p', { class: 'stop-where', text: r ? r.org + ', Hyderabad, India' : s.where }),
+        el('p', { class: 'stop-when', text: r ? r.dates : s.when }),
+        r ? el('p', { class: 'stop-note', text: r.headline }) : null,
+        r ? el('span', { class: 'proj-open', text: t.openLabel }) : null
+      ];
+      var holder;
+      if (r) {
+        holder = el('button', { class: 'stop-btn', type: 'button', 'aria-haspopup': 'dialog' });
+      } else if (s.href) {
+        holder = el('a', { class: 'stop-btn', href: s.href });
+      } else {
+        holder = el('div', { class: 'stop-btn static' });
+      }
+      inner.forEach(function (node) { if (node) holder.appendChild(node); });
+      stop.appendChild(holder);
+      line.appendChild(stop);
+      if (r) {
+        stop.setAttribute('data-role-id', r.id);
+        var link = linkSkills(holder, stop, r.skills, true);
+        holder.addEventListener('click', function () {
+          if (link && state.lastPointer === 'touch' && !link.isOn()) { link.set(true); return; }
+          openRole(r, holder);
+        });
+      }
+    });
+  }
+
   function renderExperience(sec, grid, c) {
     var x = c.experience;
+    if (x.tracker) return renderTracker(sec, grid, c);
     x.roles.forEach(function (r) {
       var face = brick(sec, grid, 'role', [4, 4]);
+      if (r.id) face.parentNode.parentNode.setAttribute('data-role-id', r.id);
       var btn = el('button', { class: 'role-btn', type: 'button', 'aria-haspopup': 'dialog' },
         art(r.art, 'role-art'),
         el('p', { class: 'role-org', text: r.org }),
@@ -359,7 +525,7 @@
   function renderOutside(sec, grid, c) {
     c.outside.items.forEach(function (o, i) {
       var f = brick(sec, grid, 'outside', [3, 3], { scrub: i + 1 });
-      f.appendChild(el('img', { src: o.src, alt: o.alt, loading: 'lazy' }));
+      f.appendChild(photo(o, { lazy: true }));
       f.appendChild(el('p', { class: 'outside-cap', text: o.caption }));
     });
     var lf = brick(sec, grid, 'outsideline', [12, 2], { solid: true, scrub: c.outside.items.length + 1 });
@@ -470,6 +636,8 @@
     rec.state = 'locked';
     rec.slot.classList.add('locked');
     rec.sec.el.classList.add('lit');
+    var face = rec.brick.querySelector('.face');
+    if (face && face._count) { if (animate) face._count(); else face._count.final && face._count.final(); face._count = null; }
     if (animate && mode() === 'full') {
       wiggleNeighbours(rec);
       clickSound();
@@ -498,6 +666,8 @@
     }
     var kind = rec.sec.def.anim || 'snap';
     var info = KINDS[kind] || KINDS.snap;
+    var face = rec.brick.querySelector('.face');
+    if (face && face._prime && m === 'full') face._prime();
     rec.brick.style.setProperty('--delay', delay + 'ms');
     rec.brick.classList.add(m === 'fade' ? 'k-fade' : 'k-' + kind);
     var done = false;
@@ -523,6 +693,9 @@
     });
     bySec.forEach(function (list, sec) {
       var gap = (KINDS[sec.def.anim] || KINDS.snap).gap;
+      /* no reader should wait for a brick: however many arrive at once, the last one starts
+         within MAX_STAGGER (the old fixed gap made the sixth project card 3.5s late) */
+      if (list.length > 1) gap = Math.min(gap, MAX_STAGGER / (list.length - 1));
       list.sort(function (a, b) { return a.idx - b.idx; });
       list.forEach(function (rec, k) { assemble(rec, k * gap, false); });
     });
@@ -571,6 +744,56 @@
         }
       }
     });
+  }
+
+  /* ---------- tailored links (?for=risk-compliance) ----------
+     She can send a recruiter a link aimed at one kind of role. The matching projects, roles,
+     problems and numbers stay bright and come first in their section; everything else dims but
+     stays readable. One click clears it, and the plain URL is the whole site as usual. */
+  function focusGroups() {
+    return (state.content.focus && state.content.focus.groups) || [];
+  }
+  function readFocus() {
+    var m = /[?&]for=([^&#]+)/.exec(window.location.search) || /#for=([^&]+)/.exec(window.location.hash);
+    if (!m) return null;
+    var want = decodeURIComponent(m[1]).toLowerCase();
+    return focusGroups().filter(function (g) { return g.id === want; })[0] || null;
+  }
+
+  var banner = null;
+  function applyFocus(group) {
+    state.focus = group || null;
+    root.classList.toggle('focused', !!group);
+    var pick = group
+      ? { project: group.projects || [], role: group.roles || [], problem: group.problems || [], number: group.numbers || [] }
+      : null;
+    [['data-project-id', 'project'], ['data-role-id', 'role'], ['data-problem-id', 'problem'], ['data-number-id', 'number']]
+      .forEach(function (pair) {
+        Array.prototype.forEach.call(document.querySelectorAll('[' + pair[0] + ']'), function (node) {
+          var inFocus = !!pick && pick[pair[1]].indexOf(node.getAttribute(pair[0])) !== -1;
+          node.classList.toggle('in-focus', !!pick && inFocus);
+          node.classList.toggle('out-focus', !!pick && !inFocus);
+          /* order:-1 lifts a match to the front of its grid without moving it in the DOM,
+             so reading order and tab order stay as written */
+          node.style.order = pick && inFocus ? '-1' : '';
+        });
+      });
+
+    if (banner) { banner.remove(); banner = null; }
+    var targetEl = document.querySelector('[data-detail="targeting"]');
+    if (targetEl) targetEl.textContent = group && group.targeting ? group.targeting : state.targetingDefault;
+    if (!group) return;
+
+    var f = state.content.focus;
+    var clear = el('button', { class: 'focus-clear', type: 'button', text: f.clear });
+    clear.addEventListener('click', function () {
+      var url = window.location.pathname + window.location.hash.replace(/#?for=[^&]*/, '');
+      try { history.replaceState(null, '', url || '/'); } catch (e) { /* ignore */ }
+      applyFocus(null);
+    });
+    banner = el('div', { class: 'focus-bar', role: 'status' },
+      el('p', null, el('span', { text: f.paramLabel + ' ' }), el('b', { text: group.label })), clear);
+    document.getElementById('topbar').insertAdjacentElement('afterend', banner);
   }
 
   /* ---------- navigation ---------- */
@@ -906,32 +1129,25 @@
   skipBtn.setAttribute('aria-pressed', state.skip ? 'true' : 'false');
   soundBtn.setAttribute('aria-pressed', state.sound ? 'true' : 'false');
 
-  /* content.json is the source. A double clicked file blocks fetch, so fall back to content.js. */
-  (window.location.protocol === 'file:' ? Promise.reject(new Error('file protocol')) : fetch('content.json'))
-    .then(function (r) {
-      if (!r.ok) throw new Error('content.json ' + r.status);
-      return r.json();
-    })
-    .catch(function (err) {
-      if (window.CONTENT) return window.CONTENT;
-      throw err;
-    })
-    .then(function (c) {
-      render(c);
-      state.bricks.forEach(function (rec) { if (!rec.scrub) io.observe(rec.slot); });
-      var target = sectionFromHash(location.hash);
-      if (target) {
-        completeBefore(target.index);
-        target.el.scrollIntoView({ behavior: 'auto', block: 'start' });
-      }
-      if (state.skip) completeAll();
-      updateActive();
-      updateScrub();
-    })
-    .catch(function (err) {
-      /* bricks could not build: show the plain text copy instead */
-      root.classList.remove('js');
-      if (staticCopy) { staticCopy.removeAttribute('inert'); staticCopy.removeAttribute('aria-hidden'); }
-      console.error(err);
-    });
+  /* content.js is loaded before this file, so the page can draw itself straight away:
+     no second request, nothing to wait for. sync_content.py keeps it equal to content.json. */
+  try {
+    if (!window.CONTENT) throw new Error('content.js did not load');
+    render(window.CONTENT);
+    applyFocus(readFocus());
+    state.bricks.forEach(function (rec) { if (!rec.scrub) io.observe(rec.slot); });
+    var target = sectionFromHash(location.hash);
+    if (target) {
+      completeBefore(target.index);
+      target.el.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+    if (state.skip) completeAll();
+    updateActive();
+    updateScrub();
+  } catch (err) {
+    /* bricks could not build: show the plain text copy instead */
+    root.classList.remove('js');
+    if (staticCopy) { staticCopy.removeAttribute('inert'); staticCopy.removeAttribute('aria-hidden'); }
+    console.error(err);
+  }
 })();
