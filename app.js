@@ -251,12 +251,18 @@
 
     var story = el('div', { class: 'id-rect id-story', role: 'group', 'aria-label': d.story.label },
       el('p', { class: 'story-lead', text: d.story.lead }));
-    /* three short rows you can open: the first stands open, so the card is light but nothing is hidden for good */
+    /* What I do always shows; the other two rows open on click, so the card is light but nothing is hidden for good */
     var list = el('div', { class: 'story-list' });
     d.story.items.forEach(function (it, i) {
-      list.appendChild(el('details', { class: 'story-item', open: i === 0 ? '' : null },
-        el('summary', { text: it.label }),
-        el('p', { text: it.text })));
+      if (i === 0) {
+        list.appendChild(el('div', { class: 'story-item fixed' },
+          el('p', { class: 'story-label', text: it.label }),
+          el('p', { text: it.text })));
+      } else {
+        list.appendChild(el('details', { class: 'story-item' },
+          el('summary', { text: it.label }),
+          el('p', { text: it.text })));
+      }
     });
     story.appendChild(list);
 
@@ -574,12 +580,25 @@
   }
 
   function renderOutside(sec, grid, c) {
-    c.outside.items.forEach(function (o, i) {
-      var f = brick(sec, grid, 'outside', [3, 3], { scrub: i + 1 });
-      f.appendChild(photo(o, { lazy: true }));
-      f.appendChild(el('p', { class: 'outside-cap', text: o.caption }));
+    var items = c.outside.items;
+    var TILTS = [-3, 2, -2, 3, -2, 2];
+    var stack = el('div', { class: 'ow-stack', role: 'group', 'aria-label': c.outside.stackLabel || '' });
+    var cards = items.map(function (o, i) {
+      var card = el('figure', { class: 'polaroid', style: { '--tilt': TILTS[i % TILTS.length] + 'deg', 'z-index': String(items.length - i) } },
+        studRow(3),
+        el('div', { class: 'p-photo' }, photo(o, { lazy: i > 0 })),
+        el('figcaption', { class: 'cap', text: o.caption }));
+      stack.appendChild(card);
+      return card;
     });
-    var lf = brick(sec, grid, 'outsideline', [12, 2], { solid: true, scrub: c.outside.items.length + 1 });
+    var dots = el('div', { class: 'ow-progress', 'aria-hidden': 'true' });
+    var dotEls = items.map(function () { var d = el('span', { class: 'ow-dot' }); dots.appendChild(d); return d; });
+    var pin = el('div', { class: 'ow-pin' }, stack, dots);
+    var wrap = el('div', { class: 'ow-wrap' }, pin);
+    plainSlot(grid, [12, 1]).appendChild(wrap);
+    state.stack = { sec: sec, wrap: wrap, pin: pin, cards: cards, dots: dotEls, lit: false };
+
+    var lf = brick(sec, grid, 'outsideline', [12, 2], { solid: true });
     lf.appendChild(el('p', { class: 'outside-line', text: c.outside.line }));
   }
 
@@ -599,9 +618,9 @@
       return a;
     }
     function body(ic, verb, value) {
-      return [el('span', { class: 'contact-ico' }, icon(ic)), el('span', { class: 'contact-copy' }, el('b', { text: verb }), el('span', { text: value }))];
+      return [el('span', { class: 'contact-ico' }, icon(ic)), el('span', { class: 'contact-copy' }, el('b', { text: verb }))];
     }
-    var emailBtn = dialogLink({ class: 'contact-link', href: 'mailto:' + k.email, 'aria-haspopup': 'dialog' }, openEmail);
+    var emailBtn = dialogLink({ class: 'contact-link', title: k.email, href: 'mailto:' + k.email, 'aria-haspopup': 'dialog' }, openEmail);
     body('mail', k.emailVerb, k.email).forEach(function (n) { emailBtn.appendChild(n); });
     var li = k.linkedin;
     var liLink = el('a', { class: 'contact-link', href: li.href, target: '_blank', rel: 'noopener noreferrer' });
@@ -806,6 +825,36 @@
     });
   }
 
+  /* ---------- Outside work: photos stacked one behind the other, flipped away by scroll ---------- */
+  function updateStack() {
+    var st = state.stack;
+    if (!st) return;
+    var n = st.cards.length;
+    var flat = mode() !== 'full';
+    st.wrap.classList.toggle('flat', flat);
+    if (flat) {
+      st.cards.forEach(function (card) { card.style.transform = ''; card.style.opacity = ''; });
+      return;
+    }
+    var rect = st.wrap.getBoundingClientRect();
+    var stickyTop = st.pin.offsetTop || 0;
+    var top = parseFloat(getComputedStyle(st.pin).top) || 0;
+    var travel = st.wrap.offsetHeight - st.pin.offsetHeight;
+    var progress = travel > 0 ? Math.min(1, Math.max(0, (top - rect.top) / travel)) : 0;
+    if (!st.lit && rect.top < window.innerHeight * 0.8) { st.lit = true; st.sec.el.classList.add('lit'); }
+    var segments = Math.max(1, n - 1);
+    var current = n - 1;
+    st.cards.forEach(function (card, i) {
+      var tilt = parseFloat(card.style.getPropertyValue('--tilt')) || 0;
+      if (i === n - 1) { card.style.transform = 'translateX(0) rotate(' + tilt + 'deg)'; card.style.opacity = '1'; return; }
+      var local = Math.min(1, Math.max(0, (progress - i / segments) / (1 / segments)));
+      card.style.transform = 'translateX(' + (local * -150) + '%) rotate(' + (tilt - local * 16) + 'deg)';
+      card.style.opacity = local > 0.8 ? String(Math.max(0, 1 - (local - 0.8) * 5)) : '1';
+      if (local < 1 && i < current) current = i;
+    });
+    st.dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
+  }
+
   /* ---------- tailored links (?for=risk-compliance) ----------
      She can send a recruiter a link aimed at one kind of role. The matching projects, roles,
      problems and numbers stay bright and come first in their section; everything else dims but
@@ -903,7 +952,7 @@
   function onScroll() {
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(function () { ticking = false; updateActive(); updateScrub(); });
+    requestAnimationFrame(function () { ticking = false; updateActive(); updateScrub(); updateStack(); });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
@@ -923,6 +972,7 @@
     if (persist) store('brickSkip', on ? '1' : '0');
     if (on) completeAll();
     updateScrub();
+    updateStack();
   }
   function setSound(on, persist) {
     state.sound = on;
@@ -933,7 +983,7 @@
   }
   skipBtn.addEventListener('click', function () { setSkip(!state.skip, true); });
   soundBtn.addEventListener('click', function () { setSound(!state.sound, true); });
-  if (reduceQuery.addEventListener) reduceQuery.addEventListener('change', function () { applyMode(); updateScrub(); });
+  if (reduceQuery.addEventListener) reduceQuery.addEventListener('change', function () { applyMode(); updateScrub(); updateStack(); });
   /* a saved "sound on" choice needs one tap before the browser lets audio start */
   document.addEventListener('pointerdown', function () {
     if (state.sound && !audio) ensureAudio();
@@ -1249,6 +1299,7 @@
     if (state.skip) completeAll();
     updateActive();
     updateScrub();
+    updateStack();
   } catch (err) {
     /* bricks could not build: show the plain text copy instead */
     root.classList.remove('js');

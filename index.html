@@ -876,6 +876,42 @@ html:not(.js) main { display: none; }
 .article-tldr b { font-weight: 800; }
 .article-btn { align-self: flex-start; margin-top: 4px; }
 
+/* ---------- intro: What I do always shows ---------- */
+.story-item.fixed { padding: 8px 0 4px; }
+.story-label { font-family: var(--font); font-weight: 800; font-size: 15px; margin: 0 0 2px; }
+.story-item.fixed p:last-child { margin: 0 0 6px; line-height: 1.5; }
+
+/* ---------- Outside work: pinned stack, photos flip away one by one as you scroll ---------- */
+#outside .grid { grid-auto-rows: auto; }
+#outside .slot.plain { display: block; }
+.ow-wrap { height: 170vh; width: 100%; }
+.ow-pin {
+  position: sticky; top: calc(var(--bar-h) + 14px); height: calc(100vh - var(--bar-h) - 40px); max-height: 640px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+}
+.ow-stack { position: relative; width: min(340px, 78vw); height: min(450px, 58vh); }
+.polaroid {
+  --bc: var(--paper);
+  position: absolute; inset: 12px 0 0; margin: 0; display: flex; flex-direction: column;
+  background: var(--paper); border-radius: 8px; border-bottom: 7px solid #C9C7C0; padding: 14px 14px 10px;
+  box-shadow: 0 22px 36px -16px rgba(0, 0, 0, 0.4), inset 0 2px 0 #fff;
+  transform: rotate(var(--tilt, 0deg)); will-change: transform, opacity;
+}
+.polaroid .p-photo { flex: 1; min-height: 0; border-radius: 4px; overflow: hidden; background: #E4E3DF; }
+.polaroid .p-photo picture { display: block; width: 100%; height: 100%; }
+.polaroid .p-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.polaroid .cap { margin-top: 10px; text-align: center; font-weight: 800; font-size: 16px; }
+.ow-progress { display: flex; gap: 8px; }
+.ow-dot { width: 12px; height: 8px; border-radius: 3px; background: rgba(35, 39, 45, 0.28); transition: background 160ms linear; }
+.ow-dot.active { background: var(--ink); }
+/* reduced motion, or Skip animation: no scroll effect, the photos simply sit in a grid */
+.ow-wrap.flat { height: auto; }
+.ow-wrap.flat .ow-pin { position: static; height: auto; max-height: none; display: block; }
+.ow-wrap.flat .ow-stack { width: 100%; height: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; padding-top: 12px; }
+.ow-wrap.flat .polaroid { position: static; transform: none !important; opacity: 1 !important; aspect-ratio: 3 / 4; }
+.ow-wrap.flat .ow-progress { display: none; }
+@media (max-width: 700px) { .ow-wrap { height: 150vh; } }
+
 </style><!--CSS-END-->
 <!--LD-START-->
 <script type="application/ld+json">
@@ -1088,12 +1124,12 @@ html:not(.js) main { display: none; }
 </section>
 <section id="s-outside">
 <h2>Outside work</h2>
-<ul><li><img src="img/outside1.webp" alt="A hand held tufting tool working on a stretched cloth frame, with spools of colored yarn on a wall behind" width="300" height="300" loading="lazy" decoding="async"> Tufting</li><li><img src="img/outside2.webp" alt="A person wearing glasses examining a hand shaped clay cup at a pottery table" width="300" height="300" loading="lazy" decoding="async"> Ceramic building</li><li><img src="img/outside3.webp" alt="A person in a printing apron lifting a wooden block over an ink tray in a block printing studio" width="300" height="300" loading="lazy" decoding="async"> Hand block fabric painting</li><li><img src="img/outside4.webp" alt="A person working on a craft piece at a table with a view of a Bali style temple garden" width="300" height="300" loading="lazy" decoding="async"> Palm leaf painting</li></ul>
+<ul><li><img src="img/outside3.webp" alt="A person in a printing apron lifting a wooden block over an ink tray in a block printing studio" width="300" height="300" loading="lazy" decoding="async"> Hand block fabric painting</li><li><img src="img/outside4.webp" alt="A person working on a craft piece at a table with a view of a Bali style temple garden" width="300" height="300" loading="lazy" decoding="async"> Palm leaf painting</li><li><img src="img/outside2.webp" alt="A person wearing glasses examining a hand shaped clay cup at a pottery table" width="300" height="300" loading="lazy" decoding="async"> Ceramic building</li><li><img src="img/outside1.webp" alt="A hand held tufting tool working on a stretched cloth frame, with spools of colored yarn on a wall behind" width="300" height="300" loading="lazy" decoding="async"> Tufting</li></ul>
 <p>You&#x27;ll usually find me trying out a new hobby or starting a hands-on project. If you&#x27;ve explored similar hobbies or want to share what you&#x27;re into, I&#x27;m all ears!</p>
 </section>
 <section id="s-contact">
 <h2>Write to me</h2>
-<p>Open to conversations about supply chain, risk, or a process that needs fixing. Reach out, whichever way is easiest for you.</p>
+<p>Open to talking about supply chain, risk, or a process that needs fixing.</p>
 <ul>
 <li>Email: <a href="mailto:bhumikachoudhary.e@gmail.com">bhumikachoudhary.e@gmail.com</a></li>
 <li>LinkedIn: <a href="https://www.linkedin.com/in/bhummika">linkedin.com/in/bhummika</a></li>
@@ -1110,8 +1146,8 @@ html:not(.js) main { display: none; }
   <section class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" tabindex="-1"></section>
 </div>
 
-<script src="content.js?v=62ccff01"></script>
+<script src="content.js?v=44e5192d"></script>
 <script src="art.js?v=b8e4da94"></script>
-<script src="app.js?v=f9cf7830"></script>
+<script src="app.js?v=22da5462"></script>
 </body>
 </html>

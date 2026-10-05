@@ -196,7 +196,7 @@ window.CONTENT = {
       "title": "Outside work",
       "color": "yellow",
       "kind": "outside",
-      "anim": "scrub"
+      "anim": "snap"
     },
     {
       "id": "contact",
@@ -1007,22 +1007,6 @@ window.CONTENT = {
   "outside": {
     "items": [
       {
-        "src": "img/outside1.jpg",
-        "alt": "A hand held tufting tool working on a stretched cloth frame, with spools of colored yarn on a wall behind",
-        "caption": "Tufting",
-        "webp": "img/outside1.webp",
-        "width": 1100,
-        "height": 825
-      },
-      {
-        "src": "img/outside2.jpg",
-        "alt": "A person wearing glasses examining a hand shaped clay cup at a pottery table",
-        "caption": "Ceramic building",
-        "webp": "img/outside2.webp",
-        "width": 825,
-        "height": 1100
-      },
-      {
         "src": "img/outside3.jpg",
         "alt": "A person in a printing apron lifting a wooden block over an ink tray in a block printing studio",
         "caption": "Hand block fabric painting",
@@ -1037,12 +1021,29 @@ window.CONTENT = {
         "webp": "img/outside4.webp",
         "width": 828,
         "height": 1100
+      },
+      {
+        "src": "img/outside2.jpg",
+        "alt": "A person wearing glasses examining a hand shaped clay cup at a pottery table",
+        "caption": "Ceramic building",
+        "webp": "img/outside2.webp",
+        "width": 825,
+        "height": 1100
+      },
+      {
+        "src": "img/outside1.jpg",
+        "alt": "A hand held tufting tool working on a stretched cloth frame, with spools of colored yarn on a wall behind",
+        "caption": "Tufting",
+        "webp": "img/outside1.webp",
+        "width": 1100,
+        "height": 825
       }
     ],
-    "line": "You'll usually find me trying out a new hobby or starting a hands-on project. If you've explored similar hobbies or want to share what you're into, I'm all ears!"
+    "line": "You'll usually find me trying out a new hobby or starting a hands-on project. If you've explored similar hobbies or want to share what you're into, I'm all ears!",
+    "stackLabel": "Photos of my hobbies, stacked. Scroll to flip through them."
   },
   "contact": {
-    "text": "Open to conversations about supply chain, risk, or a process that needs fixing. Reach out, whichever way is easiest for you.",
+    "text": "Open to talking about supply chain, risk, or a process that needs fixing.",
     "email": "bhumikachoudhary.e@gmail.com",
     "emailLabel": "Email",
     "linkedin": {
@@ -1091,7 +1092,7 @@ window.CONTENT = {
       "copy": "Copy address",
       "copied": "Copied"
     },
-    "emailVerb": "Write an email",
+    "emailVerb": "Write to me",
     "toasts": {
       "copiedAddress": "Email address copied",
       "copiedLink": "Resume link copied",
