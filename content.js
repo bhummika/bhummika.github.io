@@ -1104,7 +1104,7 @@ window.CONTENT = {
       "value": "View, download or share",
       "href": "files/resume.pdf",
       "title": "Full resume",
-      "hint": "Open it, save a copy, or send it on to someone else.",
+      "hint": "Open it in a new tab, save a copy, or scan the code to open it on your phone.",
       "open": "Open PDF",
       "download": "Download",
       "share": "Share",
@@ -1113,7 +1113,10 @@ window.CONTENT = {
       "mail": "Share by email",
       "shareTitle": "Bhumika Choudhary, resume",
       "shareText": "Resume of Bhumika Choudhary",
-      "verb": "Get my resume"
+      "verb": "Get my resume",
+      "qr": "img/resume-qr.svg",
+      "qrLabel": "Scan to open on your phone",
+      "qrAlt": "QR code that opens the resume PDF"
     },
     "chooser": {
       "title": "Write to me",

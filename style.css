@@ -1036,3 +1036,15 @@ html:not(.js) main { display: none; }
 @media (min-width: 768px) {
   .ow-pin { top: max(calc(var(--bar-h) + 14px), calc((100vh + var(--bar-h)) / 2 - 280px)); }
 }
+
+/* ---------- resume dialog: buttons left, QR code right ---------- */
+.resume-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; margin-top: 14px; }
+.resume-actions { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+.resume-actions .btn { justify-content: center; }
+.resume-qr { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 12px; background: #fff; border-radius: 10px; border: 2px solid #E1E0DB; }
+.resume-qr img { display: block; width: 160px; height: 160px; image-rendering: pixelated; }
+.resume-qr figcaption { font-size: 14px; font-weight: 700; color: var(--muted); text-align: center; max-width: 160px; line-height: 1.3; }
+@media (max-width: 480px) {
+  .resume-body { grid-template-columns: 1fr; }
+  .resume-qr { justify-self: center; }
+}

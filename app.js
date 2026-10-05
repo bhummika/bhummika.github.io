@@ -1275,30 +1275,12 @@
     openA.addEventListener('click', function () { toast(T('openingTab')); });
     var dlA = el('a', { class: 'btn', href: R.href, download: '' }, icon('download'), R.download);
     dlA.addEventListener('click', function () { toast(T('downloading')); });
-    var share = el('button', { class: 'btn', type: 'button' }, icon('share'), R.share);
-    var actions = el('div', { class: 'chooser' }, openA, dlA, share);
-    panel.appendChild(actions);
-
-    var more = el('div', { class: 'chooser more', hidden: true });
-    var copy = el('button', { class: 'btn light', type: 'button' }, icon('copy'), R.copy);
-    copy.addEventListener('click', function () {
-      var done = function () { toast(T('copiedLink')); };
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, done);
-      else done();
-    });
-    var mail = el('a', { class: 'btn light', href: 'mailto:?subject=' + encodeURIComponent(R.shareTitle) + '&body=' + encodeURIComponent(R.shareText + ': ' + url) }, icon('mail'), R.mail);
-    mail.addEventListener('click', function () { toast(T('openingMail')); });
-    more.appendChild(copy);
-    more.appendChild(mail);
-    panel.appendChild(more);
-
-    share.addEventListener('click', function () {
-      if (navigator.share && window.location.protocol !== 'file:') {
-        navigator.share({ title: R.shareTitle, text: R.shareText, url: url }).then(function () { toast(T('shared')); }, function () { more.hidden = false; });
-      } else {
-        more.hidden = false;
-      }
-    });
+    /* two plain actions on the left, a QR code on the right for opening it on a phone */
+    var actions = el('div', { class: 'resume-actions' }, openA, dlA);
+    var qr = el('figure', { class: 'resume-qr' },
+      el('img', { src: R.qr, alt: R.qrAlt, width: 160, height: 160 }),
+      el('figcaption', { text: R.qrLabel }));
+    panel.appendChild(el('div', { class: 'resume-body' }, actions, qr));
 
     wrap.hidden = false;
     document.body.style.overflow = 'hidden';
