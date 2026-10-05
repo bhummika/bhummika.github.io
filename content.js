@@ -581,7 +581,13 @@ window.CONTENT = {
           "label": "prior loss diagnosed"
         },
         "takeaway": "Diagnosed a $244M loss and built a reentry plan from assets Uber already owns.",
-        "resultLabel": "Finding"
+        "resultLabel": "Finding",
+        "image": {
+          "src": "img/project-ubereats.webp",
+          "alt": "A paper takeaway bag and a coffee cup on an office table, with colleagues in a meeting behind. A stock-style illustration, not a screenshot.",
+          "width": 928,
+          "height": 1152
+        }
       },
       {
         "id": "nordstrom-canada",
@@ -707,7 +713,13 @@ window.CONTENT = {
           "label": "capital burned"
         },
         "takeaway": "Diagnosed why Nordstrom Canada closed after $775M and designed a four pillar relaunch.",
-        "resultLabel": "Target"
+        "resultLabel": "Target",
+        "image": {
+          "src": "img/project-nordstrom.webp",
+          "alt": "A calm department store clothing floor with racks of neutral coats and knitwear. A stock-style illustration, not a screenshot.",
+          "width": 928,
+          "height": 1152
+        }
       },
       {
         "id": "huskyperks",
