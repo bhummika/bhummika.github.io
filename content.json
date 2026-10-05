@@ -482,7 +482,13 @@
           "href": "https://claude.ai/code/artifact/52cd1af1-cfb3-4469-b448-a7c9f733f5b0"
         },
         "takeaway": "Turns AI support escalation and empathy into explicit, testable judgment, modeled on 82,779 real tickets.",
-        "resultLabel": "Scale"
+        "resultLabel": "Scale",
+        "image": {
+          "src": "img/project-trustbridge.webp",
+          "alt": "Screenshot of the TrustBridge dashboard: a slider sets the escalation cutoff and tiles show containment rate and bad-outcome rate across 82,779 tickets",
+          "width": 940,
+          "height": 1120
+        }
       },
       {
         "id": "uber-eats-india",
@@ -802,7 +808,13 @@
           "href": "https://husky-perks-deals.lovable.app"
         },
         "takeaway": "Took a student deals app from concept to a working product, solo, in days.",
-        "resultLabel": "Scale"
+        "resultLabel": "Scale",
+        "image": {
+          "src": "img/project-huskyperks.webp",
+          "alt": "Screenshot of the HuskyPerks app on a phone: a map of the University of Washington campus with perk locations pinned",
+          "width": 940,
+          "height": 1120
+        }
       },
       {
         "id": "lp-dashboard",
