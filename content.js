@@ -55,11 +55,11 @@ window.CONTENT = {
     "contact": {
       "min": [
         12,
-        3
+        2
       ],
       "max": [
         12,
-        3
+        2
       ]
     },
     "role": {
@@ -376,7 +376,10 @@ window.CONTENT = {
       "workbench": "On the workbench",
       "problemShort": "Problem",
       "didShort": "What I did",
-      "resultShort": "Result"
+      "resultShort": "Result",
+      "takeaway": "Key takeaway",
+      "readTime": "min read",
+      "jump": "Jump to"
     },
     "items": [
       {
@@ -431,14 +434,16 @@ window.CONTENT = {
               "heading": "Escalation as signal detection, not keyword matching",
               "paragraphs": [
                 "Signal detection theory, the framework built for radar operators deciding \"real signal or noise,\" separates two things a keyword filter collapses into one: sensitivity (can the system actually tell a risky case from a normal one) and criterion (where it sets the threshold for saying \"escalate\"). A keyword filter has low sensitivity: \"furious\" is a weak proxy for real risk, and plenty of genuinely dangerous cases, quiet, cold, \"I'm just going to leave,\" contain no trigger words at all. TrustBridge scores emotional intensity, stakes, ambiguity, trajectory, and resolution confidence independently, then combines them, with the escalation threshold set deliberately per issue category rather than left implicit."
-              ]
+              ],
+              "chip": "Escalation"
             },
             {
               "type": "text",
               "heading": "Bounded empathy, not performed warmth",
               "paragraphs": [
                 "Recent research on AI chatbots found something counterintuitive: empathetic responses can worsen customer satisfaction. Customers hold AI to a different standard than humans, and stacked apologies read as performance, not care. TrustBridge's answer is bounded empathy: one specific, proportional acknowledgment, immediately followed by competent action, never fused with a compensation offer."
-              ]
+              ],
+              "chip": "Empathy"
             },
             {
               "type": "matrix",
@@ -462,7 +467,8 @@ window.CONTENT = {
                     "Escalate, and bridge: a bounded, honest acknowledgment while the handoff happens."
                   ]
                 }
-              ]
+              ],
+              "chip": "Model"
             },
             {
               "type": "list",
@@ -474,7 +480,8 @@ window.CONTENT = {
                 "Responses that name the specific problem correlate with higher real CSAT than responses that lean on generic warmth alone.",
                 "Stacked empathy markers score no better, or worse, on \"sounds genuine\" than a single bounded acknowledgment.",
                 "Responses that separate the emotional line from a compensation offer score higher on trust than responses that fuse them."
-              ]
+              ],
+              "chip": "Predictions"
             }
           ],
           "links": [
@@ -496,7 +503,8 @@ window.CONTENT = {
         "cta": {
           "label": "Try the live demo",
           "href": "https://claude.ai/code/artifact/52cd1af1-cfb3-4469-b448-a7c9f733f5b0"
-        }
+        },
+        "takeaway": "Turns AI support escalation and empathy into explicit, testable judgment, modeled on 82,779 real tickets."
       },
       {
         "id": "uber-eats-india",
@@ -560,14 +568,16 @@ window.CONTENT = {
                   "title": "The on the way takeaway option",
                   "text": "Order ahead, pay in app, and grab food on the way home, no delivery fee, no 35 minute wait. Built for the price sensitive customer who wants speed without paying for delivery."
                 }
-              ]
+              ],
+              "chip": "Strategy"
             },
             {
               "type": "text",
               "heading": "Who it serves",
               "paragraphs": [
                 "Students, early career professionals, and single person households: customers who already use food delivery often but stay underserved by high delivery and platform fees relative to a small, single meal order. This segment shows high repeat purchase potential the moment daily ordering becomes affordable."
-              ]
+              ],
+              "chip": "Who it serves"
             }
           ],
           "links": []
@@ -580,7 +590,8 @@ window.CONTENT = {
         "headline": {
           "value": "$244M",
           "label": "prior loss diagnosed"
-        }
+        },
+        "takeaway": "Diagnosed a $244M loss and built a reentry plan from assets Uber already owns."
       },
       {
         "id": "nordstrom-canada",
@@ -632,7 +643,8 @@ window.CONTENT = {
               "heading": "Where the original strategy fell short",
               "paragraphs": [
                 "Nordstrom got the demand right: Canadians wanted premium fashion, the brand name traveled, and shoes and service delighted when delivered well. Where it fell short: Canada was treated as one market when Toronto, Vancouver, and Montreal differ in climate and shopping behavior; the U.S. supply chain meant 2 to 3 week restocks and empty shelves; awareness never reliably converted to customers; and the service model was inconsistent."
-              ]
+              ],
+              "chip": "What fell short"
             },
             {
               "type": "steps",
@@ -654,14 +666,16 @@ window.CONTENT = {
                   "title": "Canadian Designer Collective",
                   "text": "A national platform for 50+ Canadian designers, from Mejuri and Kanuk to emerging Instagram first labels, with exclusive capsule collections and fair wholesale terms."
                 }
-              ]
+              ],
+              "chip": "Four pillars"
             },
             {
               "type": "text",
               "heading": "Who it targets",
               "paragraphs": [
                 "The \"Unjoyed\" shopper: a considered, convenience starved premium buyer, 28 to 55, $100K to $250K household income, who tolerates fragmented channels and hassle returns out of inertia rather than loyalty, and would switch for unified commerce, personalization, and a wardrobe that's actually solved."
-              ]
+              ],
+              "chip": "Target shopper"
             },
             {
               "type": "stats",
@@ -679,7 +693,8 @@ window.CONTENT = {
                   "value": "50+",
                   "label": "Canadian designers by year 2"
                 }
-              ]
+              ],
+              "chip": "Targets"
             },
             {
               "type": "quote",
@@ -696,7 +711,8 @@ window.CONTENT = {
         "headline": {
           "value": "$775M",
           "label": "capital burned"
-        }
+        },
+        "takeaway": "Diagnosed why Nordstrom Canada closed after $775M and designed a four pillar relaunch."
       },
       {
         "id": "huskyperks",
@@ -760,7 +776,8 @@ window.CONTENT = {
                   "title": "Ops Mindset",
                   "text": "Approached it like an operations problem: fixing the mapping and coordination friction to build a clean web experience."
                 }
-              ]
+              ],
+              "chip": "How it came together"
             },
             {
               "type": "quote",
@@ -786,7 +803,8 @@ window.CONTENT = {
         "cta": {
           "label": "Try it",
           "href": "https://husky-perks-deals.lovable.app"
-        }
+        },
+        "takeaway": "Took a student deals app from concept to a working product, solo, in days."
       },
       {
         "id": "lp-dashboard",
@@ -1030,7 +1048,8 @@ window.CONTENT = {
     "linkedin": {
       "label": "LinkedIn",
       "value": "linkedin.com/in/bhummika",
-      "href": "https://www.linkedin.com/in/bhummika"
+      "href": "https://www.linkedin.com/in/bhummika",
+      "verb": "Open LinkedIn"
     },
     "resume": {
       "label": "Full resume",
@@ -1045,7 +1064,8 @@ window.CONTENT = {
       "copied": "Link copied",
       "mail": "Share by email",
       "shareTitle": "Bhumika Choudhary, resume",
-      "shareText": "Resume of Bhumika Choudhary"
+      "shareText": "Resume of Bhumika Choudhary",
+      "verb": "Get my resume"
     },
     "chooser": {
       "title": "Write to me",
@@ -1070,6 +1090,15 @@ window.CONTENT = {
       ],
       "copy": "Copy address",
       "copied": "Copied"
+    },
+    "emailVerb": "Write an email",
+    "toasts": {
+      "copiedAddress": "Email address copied",
+      "copiedLink": "Resume link copied",
+      "openingMail": "Opening your email app",
+      "openingTab": "Opening in a new tab",
+      "downloading": "Downloading the resume",
+      "shared": "Shared"
     }
   },
   "focus": {

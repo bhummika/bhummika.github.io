@@ -108,6 +108,8 @@ def build_static(c):
                         out.append('<p><strong>%s:</strong> %s</p>' % (label, e(it[key])))
                 if it.get('summary'):
                     out.append(p(it['summary']))
+                if it.get('takeaway'):
+                    out.append('<p><strong>Key takeaway:</strong> %s</p>' % e(it['takeaway']))
                 if it.get('tags'):
                     out.append(p('Focus: ' + ', '.join(it['tags'])))
                 if it.get('parts'):
