@@ -1113,3 +1113,11 @@ html:not(.js) main { display: none; }
   .ow-wrap { height: calc(100vh - var(--bar-h) - 44px + 60vh); }
   .ow-pin { height: calc(100vh - var(--bar-h) - 44px); }
 }
+/* photos 25% smaller, and more scroll per photo so the flips go slower */
+.ow-wrap { height: calc(100vh - var(--bar-h) - 24px + 120vh); }
+.ow-body .ow-stack { height: 75%; }
+@media (max-width: 767px) {
+  .ow-wrap { height: calc(100vh - var(--bar-h) - 44px + 100vh); }
+  .ow-body { justify-content: center; }
+  .ow-body .ow-stack { flex: none; height: min(400px, 48vh); width: min(75%, 320px); }
+}
