@@ -1072,6 +1072,17 @@ html:not(.js) main { display: none; }
   .resume-body { grid-template-columns: 1fr; }
   .resume-qr { justify-self: center; }
 }
+/* ---------- outside work: bigger photos, less empty yellow ---------- */
+.ow-wrap { height: calc(min(640px, 72vh) + 70vh); }
+.ow-pin { height: auto; max-height: none; padding: 8px 0; top: max(calc(var(--bar-h) + 10px), calc((100vh + var(--bar-h)) / 2 - min(320px, 36vh) - 8px)); }
+.ow-stack { width: min(500px, 82vw, calc(min(640px, 72vh) * 0.8)); height: min(640px, 72vh); }
+.polaroid { inset: 8px 0 0; padding: 12px 12px 8px; }
+.polaroid .cap { margin-top: 8px; }
+@media (max-width: 767px) {
+  .ow-wrap { height: calc(min(500px, 62vh) + 110px + 60vh); }
+  .ow-pin { top: calc(var(--bar-h) + 8px); gap: 10px; }
+  .ow-stack { width: min(400px, 88vw); height: min(500px, 62vh); }
+}
 
 </style><!--CSS-END-->
 <!--LD-START-->
