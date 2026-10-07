@@ -650,7 +650,11 @@
     var dots = el('div', { class: 'ow-progress', 'aria-hidden': 'true' });
     var dotEls = items.map(function () { var d = el('span', { class: 'ow-dot' }); dots.appendChild(d); return d; });
     var side = el('div', { class: 'ow-side' }, el('p', { class: 'outside-line', text: c.outside.line }), dots);
-    var pin = el('div', { class: 'ow-pin' }, stack, side);
+    /* the section header travels with the yellow box: both stay pinned while only the photos move */
+    var body = el('div', { class: 'ow-body' }, stack, side);
+    var pin = el('div', { class: 'ow-pin' }, body);
+    var plate = sec.el.querySelector('.plate');
+    if (plate) pin.insertBefore(plate, body);
     var wrap = el('div', { class: 'ow-wrap' }, pin);
     plainSlot(grid, [12, 1]).appendChild(wrap);
     state.stack = { sec: sec, wrap: wrap, pin: pin, cards: cards, dots: dotEls, lit: false };
