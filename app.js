@@ -8,7 +8,8 @@
     drop:  { dur: 1000, gap: 420 },
     stack: { dur: 800,  gap: 260 },
     snap:  { dur: 800,  gap: 110 },
-    piece: { dur: 620,  gap: 700 }
+    piece: { dur: 620,  gap: 700 },
+    quick: { dur: 220,  gap: 60 }
   };
   var FADE_MS = 150;
   var MAX_STAGGER = 600;   /* ms from the first brick of a batch to the last */
@@ -339,7 +340,7 @@
       el('div', { class: 'pc-chips' },
         item.featured ? el('span', { class: 'pc-chip feat', text: L.featured }) : null,
         item.status ? el('span', { class: 'tag ' + statusClass(item.status), text: item.status }) : null),
-      item.image ? photo(item.image, { lazy: idx > 1 }) : art(item.art, 'pc-art'),
+      item.image ? photo(item.image, { lazy: false }) : art(item.art, 'pc-art'),
       item.headline ? el('div', { class: 'pstat pc-num' }, el('b', { text: item.headline.value }), el('span', { text: item.headline.label })) : null);
 
     var lines = el('dl', { class: 'pc-lines' });
@@ -801,7 +802,7 @@
     var face = rec.brick.querySelector('.face');
     if (face && face._prime && m === 'full') face._prime();
     rec.brick.style.setProperty('--delay', delay + 'ms');
-    rec.brick.classList.add(m === 'fade' ? 'k-fade' : 'k-' + kind);
+    rec.brick.classList.add(m === 'fade' || kind === 'quick' ? 'k-fade' : 'k-' + kind);
     var done = false;
     var finish = function () {
       if (done) return;
@@ -812,7 +813,7 @@
       if (e.target === rec.brick && /^(drop|stack|snap|piece|fade-in)$/.test(e.animationName)) finish();
     });
     rec.brick.classList.add('go');
-    setTimeout(finish, delay + (m === 'fade' ? FADE_MS : info.dur) + 150);
+    setTimeout(finish, delay + (m === 'fade' || kind === 'quick' ? FADE_MS : info.dur) + 50);
   }
 
   var io = new IntersectionObserver(function (entries) {
@@ -824,6 +825,13 @@
       bySec.get(rec.sec).push(rec);
     });
     bySec.forEach(function (list, sec) {
+      /* the project cards sit in one sideways row: cards still off to the right never come into
+         view on their own, so the first card that arrives brings the whole row with it */
+      if (sec.def.kind === 'projects') {
+        state.bricks.forEach(function (r) {
+          if (r.sec === sec && r.state === 'idle' && list.indexOf(r) < 0) list.push(r);
+        });
+      }
       var gap = (KINDS[sec.def.anim] || KINDS.snap).gap;
       /* no reader should wait for a brick: however many arrive at once, the last one starts
          within MAX_STAGGER (the old fixed gap made the sixth project card 3.5s late) */
@@ -832,6 +840,19 @@
       list.forEach(function (rec, k) { assemble(rec, k * gap, false); });
     });
   }, { threshold: 0.25 });
+
+  /* projects are the main content: start the whole row about a screen early, so the cards are
+     ready by the time a reader gets there instead of appearing one by one */
+  var rowIo = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      rowIo.unobserve(e.target);
+      var k = 0;
+      state.bricks.forEach(function (r) {
+        if (r.sec.def.kind === 'projects' && r.state === 'idle') assemble(r, 60 * k++, false);
+      });
+    });
+  }, { rootMargin: '0px 0px 60% 0px' });
 
   function completeBefore(index) {
     state.bricks.forEach(function (rec) {
@@ -1326,6 +1347,8 @@
     syncState(soundBtn, state.sound);
     applyFocus(readFocus());
     state.bricks.forEach(function (rec) { if (!rec.scrub) io.observe(rec.slot); });
+    var row = document.querySelector('.proj-shell');
+    if (row) rowIo.observe(row);
     var target = sectionFromHash(location.hash);
     if (target) {
       completeBefore(target.index);

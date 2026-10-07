@@ -175,7 +175,7 @@ window.CONTENT = {
       "title": "Projects",
       "color": "blue",
       "kind": "projects",
-      "anim": "piece"
+      "anim": "quick"
     },
     {
       "id": "experience",
