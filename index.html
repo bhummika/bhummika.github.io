@@ -1083,6 +1083,22 @@ html:not(.js) main { display: none; }
   .ow-pin { top: calc(var(--bar-h) + 8px); gap: 10px; }
   .ow-stack { width: min(400px, 88vw); height: min(500px, 62vh); }
 }
+/* ---------- outside work: the yellow baseplate hugs the photos and the line, not the whole scroll track ---------- */
+#outside .grid { background: none; box-shadow: none; padding: 0; }
+.ow-pin {
+  --patch: color-mix(in srgb, var(--acc) 30%, #E4E3DF);
+  width: fit-content; max-width: 100%; margin: 0 auto; padding: 22px clamp(20px, 3.5vw, 44px);
+  border-radius: 14px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  background-color: var(--patch);
+  background-image:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--patch), #fff 30%) 0 3px, color-mix(in srgb, var(--patch), #000 4%) 4px 6px, color-mix(in srgb, var(--patch), #000 14%) 6.5px 7.5px, transparent 8px),
+    var(--noise);
+  background-size: 40px 40px, 160px 160px;
+}
+.ow-wrap.flat .ow-pin { width: auto; }
+@media (max-width: 767px) {
+  .ow-pin { width: auto; padding: 14px 12px 16px; }
+}
 
 </style><!--CSS-END-->
 <!--LD-START-->
@@ -1321,6 +1337,6 @@ html:not(.js) main { display: none; }
 
 <script src="content.js?v=e43a8b05"></script>
 <script src="art.js?v=b8e4da94"></script>
-<script src="app.js?v=8c7c6ff5"></script>
+<script src="app.js?v=ea936650"></script>
 </body>
 </html>

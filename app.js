@@ -642,7 +642,7 @@
     var cards = items.map(function (o, i) {
       var card = el('figure', { class: 'polaroid', style: { '--tilt': TILTS[i % TILTS.length] + 'deg', 'z-index': String(items.length - i) } },
         studRow(3),
-        el('div', { class: 'p-photo' }, photo(o, { lazy: i > 0 })),
+        el('div', { class: 'p-photo' }, photo(o, { lazy: false })),
         el('figcaption', { class: 'cap', text: o.caption }));
       stack.appendChild(card);
       return card;
@@ -924,7 +924,7 @@
       var local = Math.min(1, Math.max(0, (progress - i / segments) / (1 / segments)));
       card.style.transform = 'translateX(' + (local * -150) + '%) rotate(' + (tilt - local * 16) + 'deg)';
       card.style.opacity = local > 0.8 ? String(Math.max(0, 1 - (local - 0.8) * 5)) : '1';
-      if (local < 1 && i < current) current = i;
+      if (local < 0.5 && i < current) current = i;
     });
     st.dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
   }
